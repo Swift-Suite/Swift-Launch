@@ -1,0 +1,19 @@
+{
+  "name": "swift-launch",
+  "version": "1.0.0",
+  "description": "Desktop Application for programs and file library.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Swift-Launch/Swift-Launch.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Swift-Launch/Swift-Launch/issues"
+  },
+  "homepage": "https://github.com/Swift-Launch/Swift-Launch#readme"
+}
