@@ -1,0 +1,25 @@
+{
+  "name": "swift-launch",
+  "version": "1.0.0",
+  "description": "Desktop Application to organize programs and files",
+  "main": "main.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Swift-Launch/Swift-Launch.git"
+  },
+  "keywords": [
+    "launcher"
+  ],
+  "author": "",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Swift-Launch/Swift-Launch/issues"
+  },
+  "homepage": "https://github.com/Swift-Launch/Swift-Launch#readme",
+  "dependencies": {
+    "electron": "^9.1.0"
+  }
+}
