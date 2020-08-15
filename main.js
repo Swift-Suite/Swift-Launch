@@ -10,7 +10,7 @@ app.on('ready', function(){
     });
     //loads the html content into the main window
     mainWindow.loadURL(url.format({
-        pathname: path.join(__dirname, 'main.html'),
+        pathname: path.join(__dirname, 'src/index.html'),
         protocol: 'file:',
         slashes: true
     }));
