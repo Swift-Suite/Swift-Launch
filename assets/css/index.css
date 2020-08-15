@@ -1,20 +1,32 @@
-.tab-container {
-    float:left;
-    height: bottom;
+body{
+    margin: none;
+    text-align: center;
+}
+
+#left-panel {
+    position: absolute;
+    display: flex;
+    flex-direction: column;
+}
+
+#search-bar-container {
+    background-color: lightgreen;
+    padding: 25px 0px;
+}
+
+#tab-container {
+    display: flex;
+    flex-direction: column;
+    
+    padding: 0.5em 0px;
+    height:500px;
     width:250px; 
     background-color: lightgray;
 }
 
-.tab-content {
-    height:bottom;
-    overflow:auto;
-}
-
-.button {
-    margin:none;
-    padding:none;
-    display: block;
+.tab-button {
+    text-align: left;
     border-style: hidden;
-    background-color: lightgray;
+    background-color: lightskyblue;
 }
 
