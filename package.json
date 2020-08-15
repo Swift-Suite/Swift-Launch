@@ -20,6 +20,6 @@
   },
   "homepage": "https://github.com/Swift-Launch/Swift-Launch#readme",
   "dependencies": {
-    "electron": "^9.1.0"
+    "electron": "^9.2.0"
   }
 }

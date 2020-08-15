@@ -1,0 +1,20 @@
+.tab-container {
+    float:left;
+    height: bottom;
+    width:250px; 
+    background-color: lightgray;
+}
+
+.tab-content {
+    height:bottom;
+    overflow:auto;
+}
+
+.button {
+    margin:none;
+    padding:none;
+    display: block;
+    border-style: hidden;
+    background-color: lightgray;
+}
+
