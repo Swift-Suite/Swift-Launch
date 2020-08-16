@@ -1,8 +1,11 @@
+/* <------ GLOBAL FORMAT ------> */
 body{
     margin: 0;
     text-align: center;
 }
 
+
+/* <------ LEFT PANEL ELEMENTS START --------->*/
 #left-panel {
     position: absolute;
     display: flex;
@@ -17,7 +20,6 @@ body{
 #tab-container {
     display: flex;
     flex-direction: column;
-    
     padding: 0.5em 0px;
     height:500px;
     width:250px; 
@@ -30,3 +32,17 @@ body{
     background-color: lightskyblue;
 }
 
+#add-button-container{
+
+    background-color: lightsalmon;
+}
+
+#add-program-button {
+    border-radius: 4px; 
+    background-color: lightseagreen;
+    border-style: hidden;
+    padding: 0.5em 0.5em;
+}
+
+
+/* <------ LEFT PANEL ELEMENTS END --------->*/

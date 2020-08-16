@@ -1,4 +1,10 @@
 const electron = require('electron')
 const path = require('path')
-const BrowserWindow = electron.remote.BrowserWindow
+const ipc = electron.ipcRenderer
+
+const programBtn = document.getElementById("add-program-button");
+
+programBtn.addEventListener('click', function(){
+    ipc.send('addProgram');
+});
 

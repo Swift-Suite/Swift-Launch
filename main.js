@@ -1,10 +1,12 @@
+const { app, BrowserWindow, Menu } = require('electron')
 const electron = require('electron');
 const url = require('url');
 const path = require('path');
-const {app, BrowserWindow, Menu} = electron;
 const shell = require('electron').shell
+const ipc = electron.ipcMain
 
-app.on('ready', function(){
+
+function createWindow(){
     //creates a new window
     mainWindow = new BrowserWindow({
         webPreferences: {nodeIntegration: true}, //required to allow chromium to interact with electron
@@ -16,13 +18,45 @@ app.on('ready', function(){
         protocol: 'file:',
         slashes: true
     }));
-    //Sets window toolbar to custom one made in toolBarTemplate(file,help,etc.)
+    
+    //Sets top window toolbar to custom one made in toolBarTemplate(file,help,etc.)
     Menu.setApplicationMenu(Menu.buildFromTemplate(toolBarTemplate));
+    
     //quit app when hit X
-    mainWindow.on('close', function(){app.quit()});
-})
+    mainWindow.on('close', function(){app.quit()});    
+}
+
+// Called when initialization is complete
+app.whenReady().then(createWindow)
 
 
+
+
+function addProgram() {
+    //change this function to be able to add filed to launcher, this will be called if user clicks
+    //file -> add a program
+    console.log("added");
+}
+function removeProgram() {
+    //change this function to be able to select a file to remove from launcher, this will be called if user clicks
+    //file -> remove a program
+    console.log("removed");
+}
+
+function changeTheme() {
+    // Change the theme of the program
+}
+
+
+ipc.on('addProgram',addProgram);
+
+
+
+
+
+
+
+// Top window toolbar template
 const toolBarTemplate = [
     // ------ File Start ----------
     {
@@ -31,18 +65,31 @@ const toolBarTemplate = [
             {
                 label:'Add a program',
                 click(){  //on click functions to do
-                    addFileToLauncher();
+                    addProgram();
                 }
             },
             {
                 label:'Remove a program',
                 click(){
-                    removeFileFromLauncher();
+                    removeProgram();
                 }
             }
         ]
     },
     // -------- File End ---------
+    // ------ Edit Start ----------
+    {
+        label:'Edit',
+        submenu:[
+            {
+                label:'Change Theme',
+                click() {
+                    changeTheme();
+                }
+            }
+        ]
+    },
+    // -------- Edit End ---------
     // -------- Info Start -------
     {
         label:'Info',
@@ -58,11 +105,25 @@ const toolBarTemplate = [
     // -------- Info End -------
 ]
 
-function addFileToLauncher(){
-    //change this function to be able to add filed to launcher, this will be called if user clicks
-    //file -> add a program
-}
-function removeFileFromLauncher(){
-    //change this function to be able to select a file to remove from launcher, this will be called if user clicks
-    //file -> remove a program
-}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
