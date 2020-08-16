@@ -10,7 +10,7 @@ function createWindow(){
     //creates a new window
     mainWindow = new BrowserWindow({
         webPreferences: {nodeIntegration: true}, //required to allow chromium to interact with electron
-        icon: path.join(__dirname, "assets/icon.jpg")  //sets icon to whatever icon.jpg is in assets
+        icon: path.join(__dirname, "assets/icon.png")  //sets icon to whatever icon.jpg is in assets
     });
     //loads the html content into the main window
     mainWindow.loadURL(url.format({
@@ -104,6 +104,88 @@ const toolBarTemplate = [
     }
     // -------- Info End -------
 ]
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
