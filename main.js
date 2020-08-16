@@ -2,6 +2,7 @@ const electron = require('electron');
 const url = require('url');
 const path = require('path');
 const {app, BrowserWindow, Menu} = electron;
+const shell = require('electron').shell
 
 app.on('ready', function(){
     //creates a new window
@@ -23,8 +24,9 @@ app.on('ready', function(){
 
 
 const toolBarTemplate = [
+    // ------ File Start ----------
     {
-        label:'file',
+        label:'File',
         submenu:[
             {
                 label:'Add a program',
@@ -39,7 +41,21 @@ const toolBarTemplate = [
                 }
             }
         ]
+    },
+    // -------- File End ---------
+    // -------- Info Start -------
+    {
+        label:'Info',
+        submenu:[
+            {
+                label:'Github',
+                click(){
+                    shell.openExternal('https://github.com/Swift-Launch/Swift-Launch');
+                }
+            }
+        ]
     }
+    // -------- Info End -------
 ]
 
 function addFileToLauncher(){
