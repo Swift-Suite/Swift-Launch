@@ -26,11 +26,7 @@ app.on('ready', function(){
 const toolBarTemplate = [
     // ------ File Start ----------
     {
-<<<<<<< HEAD
         label:'File',
-=======
-        label:'File', //creates a new label for toolbar
->>>>>>> c0d720b8124b49390e504a9ae79fd028d20e949f
         submenu:[
             {
                 label:'Add a program',
@@ -53,7 +49,7 @@ const toolBarTemplate = [
         submenu:[
             {
                 label:'Github',
-                click(){
+                click() {
                     shell.openExternal('https://github.com/Swift-Launch/Swift-Launch');
                 }
             }
