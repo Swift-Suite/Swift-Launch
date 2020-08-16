@@ -12,11 +12,11 @@ app.on('ready', function(){
     });
     //loads the html content into the main window
     mainWindow.loadURL(url.format({
-        pathname: path.join(__dirname, 'src/index.html'),
+        pathname: path.join(__dirname, 'src/index.html'), //loads html file as webpage in chromium
         protocol: 'file:',
         slashes: true
     }));
-    //Sets window toolbar to toolbar created with toolBarTemplate
+    //Sets window toolbar to custom one made in toolBarTemplate(file,help,etc.)
     Menu.setApplicationMenu(Menu.buildFromTemplate(toolBarTemplate));
     //quit app when hit X
     mainWindow.on('close', function(){app.quit()});
@@ -26,11 +26,15 @@ app.on('ready', function(){
 const toolBarTemplate = [
     // ------ File Start ----------
     {
+<<<<<<< HEAD
         label:'File',
+=======
+        label:'File', //creates a new label for toolbar
+>>>>>>> c0d720b8124b49390e504a9ae79fd028d20e949f
         submenu:[
             {
                 label:'Add a program',
-                click(){
+                click(){  //on click functions to do
                     addFileToLauncher();
                 }
             },
