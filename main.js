@@ -101,8 +101,16 @@ const toolBarTemplate = [
                 }
             }
         ]
-    }
+    },
     // -------- Info End -------
+    //--------- Devtools Start ------------
+    {
+        label:'Devtools',
+        click(item,focusedWindow){
+            focusedWindow.toggleDevTools();
+        }
+    }
+    //--------Devtools end --------
 ]
 
 
