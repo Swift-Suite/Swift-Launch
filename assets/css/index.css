@@ -7,11 +7,11 @@ body{
 
 /*modifying scrollbar*/
 ::-webkit-scrollbar{
-    width: 10px;
+    width: 8px;
 }
 
 ::-webkit-scrollbar-track-piece{ /*portion of scrollbar that the thumb is not over*/
-    background: #888;
+    background-color: rebeccapurple;
 }
 
 ::-webkit-scrollbar-thumb{ /*shows current position in scroll*/
@@ -47,6 +47,7 @@ body{
     border: 2px solid red;
     border-radius: 4px;
     transition: width 0.4s ease-in-out;
+    background-color: wheat;
 }
 
 #search-bar[type=text]:focus{
@@ -74,7 +75,6 @@ body{
 
 #add-button-container{
     background-color: lightsalmon;
-    bottom: auto;
 }
 
 #add-program-button {
@@ -101,8 +101,19 @@ body{
 }
 
 .program-header {
+    display: flex;
+    flex-direction: row;
     background-color: peru;
     padding: 0.5em;
+}
+
+#program-icon {
+    padding: 0.5rem;
+    height: 2rem;
+    width: 2rem;
+    align-self: center;
+    background-color: thistle;
+    border-radius: 10%;
 }
 
 
