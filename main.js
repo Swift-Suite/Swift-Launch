@@ -48,7 +48,11 @@ function changeTheme() {
 }
 
 
-ipc.on('addProgram',addProgram);
+ipc.on('addProgram',(event) =>{
+    addProgram()
+    event.reply("makeButton","button")
+}
+);
 
 
 
