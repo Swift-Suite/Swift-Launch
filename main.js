@@ -36,6 +36,9 @@ function addProgram() {
     //change this function to be able to add filed to launcher, this will be called if user clicks
     //file -> add a program
     console.log("added");
+    //function should open up a new window where the user can access their filesystem to select a program, they can then 
+    //change the title and description of that program before adding it to the list, will be returned to makeButton in index.js and
+    //should also be stored in the json file we will use to store programs between uses
     return "button"
 }
 function removeProgram() {
