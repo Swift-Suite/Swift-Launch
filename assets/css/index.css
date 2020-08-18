@@ -1,6 +1,7 @@
 /* <------ GLOBAL FORMAT ------> */
 body{
     margin: 0;
+    padding: 0;
     text-align: center;
 }
 
@@ -17,44 +18,63 @@ body{
     background: yellow;
 }
 
-
 /* end modifying scrollbar*/
+
+/* <---- Main Container Start -----> */
+
+#main-container{
+    display: flex;
+    flex-direction: row;
+}
+
+/* <---- Main Container End ------> */
 
 /* <------ LEFT PANEL ELEMENTS START --------->*/
 #left-panel {
-    position: absolute;
     display: flex;
     flex-direction: column;
+    height: 100vh;
+    background-color: peachpuff;
 }
 
 #search-bar-container {
     background-color: lightgreen;
-    padding: 25px 0px;
+    padding: 10% 10%;
 }
+
+#search-bar[type=text] {
+    width: 80%;
+    border: 2px solid red;
+    border-radius: 4px;
+    transition: width 0.4s ease-in-out;
+}
+
+#search-bar[type=text]:focus{
+    width: 90%;
+}
+  
 
 #tab-container {
     display: list-item;
-    flex-direction: column;
     padding: 0.5em 0px;
-    height:500px;
-    width:250px; 
+    width: 250px; 
     overflow-y: scroll;
     overflow-x: hidden;
     background-color: lightgray;
-    min-height: 100vh;
+    /* min-height: 90vh; */
 }
 
 .tab-button {
     text-align: left;
-    width: 250px;
+    width: 100%;
     height: 100px;
     border-style: hidden;
     background-color: lightskyblue;
 }
 
 #add-button-container{
-
     background-color: lightsalmon;
+    bottom: auto;
 }
 
 #add-program-button {
@@ -66,3 +86,33 @@ body{
 
 
 /* <------ LEFT PANEL ELEMENTS END --------->*/
+
+
+/* <--------- Content Panel Start ----------> */
+
+#content-panel {
+    display: flex;
+    flex-direction: column;
+    background-color: tomato;
+    width: 100%;
+    height: 100vh;
+    overflow-y: scroll;
+    overflow-x: hidden;
+}
+
+.program-header {
+    background-color: peru;
+    padding: 0.5em;
+}
+
+
+.program-body {
+    background-color: powderblue;
+    padding: 1rem;
+}
+
+.program-body-content {
+    background-color: silver;
+}
+
+/* <--------- Content Panel End ------------> */

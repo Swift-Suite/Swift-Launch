@@ -5,29 +5,33 @@
     <link rel="stylesheet" href="../assets/css/index.css">
  </head>
  <body>
-     <div id="left-panel"> <!-- Left Panel Start -->
-        <div id="search-bar-container">
-            <input type="text" placeholder="Search">
-        </div>
-        <div id="tab-container">
-            <!-- Removed Two Default Buttons -->
-        </div>
-        <div id="add-button-container">
-            <button id="add-program-button">Add Program</button>
-            <script src="index.js"></script>
-        </div>
-     </div> <!-- Left Panel End -->
-     <div id="Pull-up-screen"> <!-- Content Screen Start -->
-        <p id="title">
-            app title goes here
-        </p>
-        <button id="launch button">
-            launch
-        </button>
-        <p id = "description">
-            app desc goes here
-        </p>
-     </div> <!-- Content Screen End -->
+     <div id="main-container">
+         <div id="left-panel"> <!-- Left Panel Start -->
+            <div id="search-bar-container">
+                <input type="text" placeholder="Search" id="search-bar">
+            </div>
+            <div id="tab-container">
+                <!-- Removed Two Default Buttons -->
+            </div>
+            <div id="add-button-container">
+                <button id="add-program-button">Add Program</button>
+                <script src="index.js"></script>
+            </div>
+         </div> <!-- Left Panel End -->
+         <div id="content-panel"> <!-- Content Screen Start -->
+            <div class="program-header">
+                <h1 id="title">App Title</h1>
+            </div>
+            <div class="program-body">
+                <button id="launch-button">Launch</button>
+                <div class="program-body-content">
+                    <p id = "description">
+                        Lorem ipsum dolor sit amet consectetur adipisicing elit. Repellat distinctio corporis totam vitae aut maiores, sequi consequatur suscipit praesentium tempora deleniti quas ut fugiat cupiditate quod doloremque velit neque quasi.
+                    </p>
+                </div>
+            </div>
+         </div> <!-- Content Screen End -->
+     </div>
      
  </body>
 </html>
