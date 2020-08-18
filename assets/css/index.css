@@ -58,10 +58,10 @@ body{
     display: list-item;
     padding: 0.5em 0px;
     width: 250px; 
+    height: 100%;
     overflow-y: scroll;
     overflow-x: hidden;
     background-color: lightgray;
-    /* min-height: 90vh; */
 }
 
 .tab-button {
