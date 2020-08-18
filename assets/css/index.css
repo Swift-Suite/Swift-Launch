@@ -41,6 +41,7 @@ body{
     overflow-y: scroll;
     overflow-x: hidden;
     background-color: lightgray;
+    min-height: 100vh;
 }
 
 .tab-button {

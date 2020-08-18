@@ -17,7 +17,8 @@ function makeProgramButton(programid)
 {
     button = document.createElement("button");
     button.className = "tab-button";
-    button.innerHTML = "button";
+    button.innerHTML = "button" + buttonCount.toString();
     document.getElementById("tab-container").append(button);
+    buttonCount++;
 }
 

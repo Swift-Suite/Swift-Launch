@@ -33,7 +33,7 @@ app.whenReady().then(createWindow)
 
 
 function addProgram() {
-    //change this function to be able to add filed to launcher, this will be called if user clicks
+    //change this function to be able to add files to launcher, this will be called if user clicks
     //file -> add a program
     console.log("added");
     //function should open up a new window where the user can access their filesystem to select a program, they can then 
