@@ -36,6 +36,7 @@ function addProgram() {
     //change this function to be able to add filed to launcher, this will be called if user clicks
     //file -> add a program
     console.log("added");
+    return "button"
 }
 function removeProgram() {
     //change this function to be able to select a file to remove from launcher, this will be called if user clicks
@@ -49,8 +50,7 @@ function changeTheme() {
 
 
 ipc.on('addProgram',(event) =>{
-    addProgram()
-    event.reply("makeButton","button")
+    event.reply("makeButton",addProgram())
 }
 );
 
