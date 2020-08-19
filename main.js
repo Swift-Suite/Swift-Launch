@@ -6,6 +6,9 @@ const shell = require('electron').shell
 const { execFile } = require('child_process');
 const ipc = electron.ipcMain
 
+// For development only
+try { require('electron-reloader')(module); } catch (_) {}
+
 // Database
 const { initDB, createEntry } = require('./src/db/executables');
 
@@ -23,7 +26,7 @@ function createWindow(){
     }));
     
     mainWindow.on('dom-ready', (e) => {
-        window.webContents.send('dom-ready');
+        console.log('dom-ready');
     });
     //Sets top window toolbar to custom one made in toolBarTemplate(file,help,etc.)
     Menu.setApplicationMenu(Menu.buildFromTemplate(toolBarTemplate));

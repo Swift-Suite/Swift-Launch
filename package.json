@@ -22,5 +22,8 @@
   "dependencies": {
     "electron": "^9.2.0",
     "electron-db": "^0.15.7"
+  },
+  "devDependencies": {
+    "electron-reloader": "^1.0.1"
   }
 }
