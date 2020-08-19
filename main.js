@@ -3,6 +3,7 @@ const electron = require('electron');
 const url = require('url');
 const path = require('path');
 const shell = require('electron').shell
+const { execFile } = require('child_process');
 const ipc = electron.ipcMain
 
 // Database
@@ -36,8 +37,6 @@ app.whenReady().then(() => {
     createWindow();
     initDB();
 });
-
-
 
 
 function addProgram() {
@@ -95,11 +94,27 @@ function addToDB(filePath){
 }
 
 
+var programPath = "D:\\Quixel for Texturing\\Quixel Mixer.exe"; //this will track path of current program that the launch button will launch
+function launchProgram(){
+    // execute the file
+    const child = execFile(programPath, (error,stdout,stderror) => {
+        if (error) {
+            throw error;
+        }
+        console.log(stdout);
+    });
+}
+
+
 ipc.on('addProgram',(event) =>{
     var filePath = addProgram()
     event.reply("makeButton",filePath[0])   //replies to addprogram request by requesting the renderer make a button
 }
 );
+
+ipc.on('launchProgram',(event)=>{
+    launchProgram()
+});
 
 
 
@@ -159,6 +174,12 @@ const toolBarTemplate = [
         label:'Devtools',
         click(item,focusedWindow){
             focusedWindow.toggleDevTools();
+        }
+    },
+    {
+        label: 'Reload',
+        click(item,focusedWindow){
+            focusedWindow.reload();
         }
     }
     //--------Devtools end --------
