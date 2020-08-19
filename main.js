@@ -46,7 +46,26 @@ function addProgram() {
     //function should open up a new window where the user can access their filesystem to select a program, they can then 
     //change the title and description of that program before adding it to the list, will be returned to makeButton in index.js and
     //should also be stored in the json file we will use to store programs between uses
+<<<<<<< HEAD
     return filePath
+=======
+
+    // Set up storage method
+
+    // Open up file system
+
+    // get path to program
+
+    // insert program name into storage
+
+    // insert program path to storage
+
+    // storage fills other fields as empty
+
+    // store json file into app data
+
+    return "button"
+>>>>>>> 3683ad17785af0f109c894451ed31d9b8d877530
 }
 function removeProgram() {
     //change this function to be able to select a file to remove from launcher, this will be called if user clicks
