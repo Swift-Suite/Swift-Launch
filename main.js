@@ -43,6 +43,7 @@ function addProgram() {
             ]
         }
     )
+    addToDB(filePath)
     //function should open up a new window where the user can access their filesystem to select a program, they can then 
     //change the title and description of that program before adding it to the list, will be returned to makeButton in index.js and
     //should also be stored in the json file we will use to store programs between uses
@@ -81,7 +82,6 @@ function addToDB(filePath){
 
 ipc.on('addProgram',(event) =>{
     var filePath = addProgram()
-    addToDB(filePath)
     event.reply("makeButton",filePath[0])   //replies to addprogram request by requesting the renderer make a button
 }
 );
