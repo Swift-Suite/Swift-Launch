@@ -5,6 +5,8 @@ const path = require('path');
 const shell = require('electron').shell
 const ipc = electron.ipcMain
 
+// Database
+const { initDB, createEntry } = require('./src/db/executables');
 
 function createWindow(){
     //creates a new window
@@ -19,6 +21,9 @@ function createWindow(){
         slashes: true
     }));
     
+    mainWindow.on('dom-ready', (e) => {
+        window.webContents.send('dom-ready');
+    });
     //Sets top window toolbar to custom one made in toolBarTemplate(file,help,etc.)
     Menu.setApplicationMenu(Menu.buildFromTemplate(toolBarTemplate));
     
@@ -27,7 +32,10 @@ function createWindow(){
 }
 
 // Called when initialization is complete
-app.whenReady().then(createWindow)
+app.whenReady().then(() => {
+    createWindow();
+    initDB();
+});
 
 
 
@@ -77,6 +85,13 @@ function changeTheme() {
 function addToDB(filePath){
     //this function should add a new entry to our backend with the name of a newly added application
     //and any other information that we will store
+
+    createEntry({
+        program_name: "Test Name",
+        program_path: filePath,
+        icon_path: "",
+        description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum metus eros, viverra ut erat ut, cursus bibendum sapien. Sed dictum mi ut est accumsan, vel.",
+    });
 }
 
 
