@@ -104,8 +104,11 @@ ipc.on('launchProgram',(event)=>{
     launchProgram()
 });
 
-
-
+// Note: ipc name "displayContent" is the same name as the one being sent out. This may not work, but I think it's easier to understand that they are linked together.
+// Maybe using a naming convention of "displayContent{file name}" might be easier to understand
+ipc.on('displayContent', (event)=>{
+    ipc.reply('displayContent');
+});
 
 
 
