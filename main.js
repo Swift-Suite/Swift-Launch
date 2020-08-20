@@ -46,31 +46,14 @@ function addProgram() {
     //change this function to be able to add files to launcher, this will be called if user clicks
     //file -> add a program
     console.log("added");
-    var filePath = dialog.showOpenDialogSync(
-        {
-            filters:[
-                {name: 'Application', extensions: ['exe']}
-            ]
-        }
-    )
+    var filePath = dialog.showOpenDialogSync({
+        filters:
+        [
+            {name: 'Application', extensions: ['exe']}
+        ]
+    });
+    // Adds program data into the DB
     addToDB(filePath)
-    //function should open up a new window where the user can access their filesystem to select a program, they can then 
-    //change the title and description of that program before adding it to the list, will be returned to makeButton in index.js and
-    //should also be stored in the json file we will use to store programs between uses
-
-    // Set up storage method
-
-    // Open up file system
-
-    // get path to program
-
-    // insert program name into storage
-
-    // insert program path to storage
-
-    // storage fills other fields as empty
-
-    // store json file into app data
 
     return filePath
 }
@@ -109,11 +92,13 @@ function launchProgram(){
 }
 
 
+// <---------- IPC Receiving ---------------->
+
+// <--- IPC from index.js --->
 ipc.on('addProgram',(event) =>{
     var filePath = addProgram()
     event.reply("makeButton",filePath[0])   //replies to addprogram request by requesting the renderer make a button
-}
-);
+});
 
 ipc.on('launchProgram',(event)=>{
     launchProgram()

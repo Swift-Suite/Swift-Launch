@@ -26,13 +26,18 @@ launchBtn.addEventListener('click', function(){
 });
 
 // Tab Button Event
-tabBtn.addEventListener('click', function(){
-    ipc.send('launchProgram');
-});
+if (tabBtn != null){
+    tabBtn.addEventListener('click', function(){
+        ipc.send('launchProgram');
+    });
+}
+
+
 
 
 // <---------- IPC Receiving ---------------->
 // Basically receive information from main.js
+
 ipc.on("makeButton", (event,args) =>{
     makeProgramButton(args)
 });
@@ -45,6 +50,7 @@ ipc.on("dom-ready", (event, args) => {
 
 
 // <---------- Helper Methods ---------------->
+
 var count = 0;
 function makeProgramButton(programName)
 {
@@ -53,7 +59,7 @@ function makeProgramButton(programName)
     button.id = 'button' + count.toString();
     button.innerHTML = programName;
     document.getElementById("tab-container").append(button);
-    
+    tabBtn = button;
     
     count++;
 }
