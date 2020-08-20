@@ -10,7 +10,9 @@ const ipc = electron.ipcMain
 try { require('electron-reloader')(module); } catch (_) {}
 
 // Database
-const { initDB, createEntry } = require('./src/db/executables');
+const { initDB, createEntry, getEntries } = require('./src/db/executables');
+
+
 
 function createWindow(){
     //creates a new window
@@ -95,19 +97,20 @@ function launchProgram(){
 // <---------- IPC Receiving ---------------->
 
 // <--- IPC from index.js --->
-ipc.on('addProgram',(event) =>{
+ipc.on('addProgram', (event) =>{
     var filePath = addProgram()
-    event.reply("makeButton",filePath[0])   //replies to addprogram request by requesting the renderer make a button
+    namePath = filePath; // TEMP REMOVE LATER
+    event.reply("makeButton", filePath[0])   //replies to addprogram request by requesting the renderer make a button
 });
 
-ipc.on('launchProgram',(event)=>{
+ipc.on('launchProgram', (event)=>{
     launchProgram()
 });
 
 // Note: ipc name "displayContent" is the same name as the one being sent out. This may not work, but I think it's easier to understand that they are linked together.
 // Maybe using a naming convention of "displayContent{file name}" might be easier to understand
-ipc.on('displayContent', (event)=>{
-    ipc.reply('displayContent');
+ipc.on('displayContent', (event, args)=>{
+    event.reply('displayContentRenderer', args); // pass in path as name (for now)
 });
 
 

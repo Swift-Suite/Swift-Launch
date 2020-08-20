@@ -25,20 +25,13 @@ launchBtn.addEventListener('click', function(){
     ipc.send('launchProgram');
 });
 
-// Tab Button Event
-if (tabBtn != null){
-    tabBtn.addEventListener('click', function(){
-        ipc.send('displayContent');
-    });
-}
-
 
 
 
 // <---------- IPC Receiving ---------------->
 // Basically receive information from main.js
 
-ipc.on("makeButton", (event,args) =>{
+ipc.on("makeButton", (event, args) =>{
     makeProgramButton(args)
 });
 
@@ -46,27 +39,42 @@ ipc.on("dom-ready", (event, args) => {
     console.log("READY");
 });
 
-// Note: ipc name "displayContent" is the same name as the one being sent out. This may not work, but I think it's easier to understand that they are linked together.
-// Maybe using a naming convention of "displayContent{file name}" might be easier to understand
-ipc.on("displayContent", (event, args) => {
+ipc.on("displayContentRenderer", (event, args) => {
     console.log("Content Page Updated");
     // update the content page elements
+    updateContentPage(args); // args = "This was Updated" (for now)
 });
 
 
 // <---------- Helper Methods ---------------->
 
 var count = 0;
-function makeProgramButton(programName)
-{
+function makeProgramButton(programName) {
     button = document.createElement("button");
     button.className = "tab-button";
-    button.id = 'button' + count.toString();
+    //button.id = 'button' + count.toString();
     button.innerHTML = programName;
     document.getElementById("tab-container").append(button);
-    tabBtn = button;
     
-    count++;
+    // Creates Event Listener for the dynamically added button
+    button.addEventListener('click', function(element){
+        console.log("tab button works");
+        ipc.send('displayContent', "This was Updated");
+    });
+    
+    //count++;
+}
+
+
+function updateContentPage(programInfo) { // programInfo is "This was Updated" (for now) -> came from ipc.on("displayContentRenderer")
+    // Get Elements
+    nameElement = document.getElementById("title");
+    descriptionElement = document.getElementById("description");
+
+    // Update Elements
+    nameElement.innerHTML = programInfo;
+    descriptionElement.innerHTML = "This is the description for " + programInfo;
+    // Update Launch Button Exec Path
 }
 
 
@@ -82,6 +90,12 @@ async function initialize() {
         const textNode = document.createTextNode(entry.program_name);
         button.appendChild(textNode);
         document.getElementById("tab-container").appendChild(button);
+        
+        // Creates Event Listener for the dynamically added button
+        button.addEventListener('click', function(element){
+            console.log("tab button works for initialization");
+            ipc.send('displayContent', "This was Updated via initialize");
+        });
     });
 }
 
