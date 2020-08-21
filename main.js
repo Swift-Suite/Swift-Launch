@@ -1,5 +1,6 @@
 const { app, BrowserWindow, Menu, dialog } = require('electron')
 const electron = require('electron');
+const os = require('os');
 const url = require('url');
 const path = require('path');
 const shell = require('electron').shell
@@ -11,6 +12,7 @@ try { require('electron-reloader')(module); } catch (_) {}
 
 // Database
 const { initDB, createEntry, getEntries } = require('./src/db/executables');
+const { worker } = require('cluster');
 
 
 
@@ -40,7 +42,7 @@ function createWindow(){
 // Called when initialization is complete
 app.whenReady().then(() => {
     createWindow();
-    initDB();
+    initDB();  //will not create new db if db JSON file already exists
 });
 
 
@@ -56,7 +58,6 @@ function addProgram() {
     });
     // Adds program data into the DB
     addToDB(filePath)
-
     return filePath
 }
 function removeProgram() {
@@ -72,14 +73,15 @@ function changeTheme() {
 function addToDB(filePath){
     //this function should add a new entry to our backend with the name of a newly added application
     //and any other information that we will store
-
     createEntry({
-        program_name: "Test Name",
+        program_name: findEXEName(filePath),
         program_path: filePath,
         icon_path: "",
         description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum metus eros, viverra ut erat ut, cursus bibendum sapien. Sed dictum mi ut est accumsan, vel.",
     });
 }
+
+
 
 
 var programPath = "D:\\Quixel for Texturing\\Quixel Mixer.exe"; //this will track path of current program that the launch button will launch
@@ -99,8 +101,8 @@ function launchProgram(){
 // <--- IPC from index.js --->
 ipc.on('addProgram', (event) =>{
     var filePath = addProgram()
-    namePath = filePath; // TEMP REMOVE LATER
-    event.reply("makeButton", filePath[0])   //replies to addprogram request by requesting the renderer make a button
+    let namePath = findEXEName(filePath);
+    event.reply("makeButton", namePath)   //replies to addprogram request by requesting the renderer make a button
 });
 
 ipc.on('launchProgram', (event)=>{
@@ -114,7 +116,24 @@ ipc.on('displayContent', (event, args)=>{
 });
 
 
-
+//---------------Helper Functions --------------------------
+function findEXEName(filePath){
+    //take a file path to an executable file and finds the name of the executable without ".exe"
+    if(!filePath)
+        return ""
+    let t;
+    if(os.platform() == "win32"){
+        t = filePath.toString().split("\\")
+        t = t[t.length-1]
+        t = t.split(".")[0]
+    }
+    else{
+        t = filePath.toString().split("/")
+        t = t[t.length-1]
+        t = t.split(".")[0]
+    }
+    return t
+}
 
 // Top window toolbar template
 const toolBarTemplate = [
