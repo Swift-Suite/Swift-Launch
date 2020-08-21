@@ -11,7 +11,7 @@ const ipc = electron.ipcMain
 try { require('electron-reloader')(module); } catch (_) {}
 
 // Database
-const { initDB, createEntry, getEntries } = require('./src/db/executables');
+const { initDB, createEntry } = require('./src/db/executables');
 const { worker } = require('cluster');
 
 
@@ -70,13 +70,12 @@ function changeTheme() {
 }
 
 function addToDB(filePath, namePath){
-    //this function should add a new entry to our backend with the name of a newly added application
-    //and any other information that we will store
+    // Creates a new entry into the DB
     createEntry({
         program_name: namePath,
         program_path: filePath,
         icon_path: "",
-        description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum metus eros, viverra ut erat ut, cursus bibendum sapien. Sed dictum mi ut est accumsan, vel.",
+        description: "This is the description for " + namePath,
     });
 }
 
@@ -117,6 +116,7 @@ ipc.on('displayContent', (event, args)=>{
 
 
 //---------------Helper Functions --------------------------
+
 function findEXEName(filePath){
     //take a file path to an executable file and finds the name of the executable without ".exe"
     if(!filePath)

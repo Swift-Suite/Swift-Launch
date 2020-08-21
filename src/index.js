@@ -7,8 +7,6 @@ const { getEntries } = require('./db/executables');
 // <--- Buttons on Page --->
 const programBtn = document.getElementById("add-program-button");
 const launchBtn = document.getElementById("launch-button");
-var tabBtn;
-
 
 
 
@@ -72,8 +70,8 @@ function updateContentPage(programInfo) { // programInfo is "This was Updated" (
     descriptionElement = document.getElementById("description");
 
     // Update Elements
-    nameElement.innerHTML = programInfo;
-    descriptionElement.innerHTML = "This is the description for " + programInfo;
+    nameElement.innerHTML = programInfo.name;
+    descriptionElement.innerHTML = "This is the description for " + programInfo.description;
     // Update Launch Button Exec Path
 }
 
@@ -91,10 +89,12 @@ async function initialize() {
         button.appendChild(textNode);
         document.getElementById("tab-container").appendChild(button);
         
+        console.log(entry);
+
         // Creates Event Listener for the dynamically added button
         button.addEventListener('click', function(element){
             console.log("tab button works for initialization");
-            ipc.send('displayContent', "This was Updated via initialize");
+            ipc.send('displayContent', {name : entry.program_name, description : entry.description});
         });
     });
 }
