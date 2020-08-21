@@ -57,7 +57,6 @@ function addProgram() {
         ]
     });
     // Adds program data into the DB
-    addToDB(filePath)
     return filePath
 }
 function removeProgram() {
@@ -70,11 +69,11 @@ function changeTheme() {
     // Change the theme of the program
 }
 
-function addToDB(filePath){
+function addToDB(filePath, namePath){
     //this function should add a new entry to our backend with the name of a newly added application
     //and any other information that we will store
     createEntry({
-        program_name: findEXEName(filePath),
+        program_name: namePath,
         program_path: filePath,
         icon_path: "",
         description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum metus eros, viverra ut erat ut, cursus bibendum sapien. Sed dictum mi ut est accumsan, vel.",
@@ -102,6 +101,7 @@ function launchProgram(){
 ipc.on('addProgram', (event) =>{
     var filePath = addProgram()
     let namePath = findEXEName(filePath);
+    addToDB(filePath, namePath)
     event.reply("makeButton", namePath)   //replies to addprogram request by requesting the renderer make a button
 });
 
