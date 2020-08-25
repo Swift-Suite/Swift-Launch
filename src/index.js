@@ -4,6 +4,9 @@ const ipc = electron.ipcRenderer
 
 const { getEntries } = require('./db/executables');
 
+
+var currentProgramPath = "";
+
 // <--- Buttons on Page --->
 const programBtn = document.getElementById("add-program-button");
 const launchBtn = document.getElementById("launch-button");
@@ -20,7 +23,8 @@ programBtn.addEventListener('click', function(){
 
 // Launch Button Event
 launchBtn.addEventListener('click', function(){
-    ipc.send('launchProgram');
+    console.log("current path: " + currentProgramPath);
+    ipc.send('launchProgram', currentProgramPath);
 });
 
 
@@ -40,31 +44,31 @@ ipc.on("dom-ready", (event, args) => {
 ipc.on("displayContentRenderer", (event, args) => {
     console.log("Content Page Updated");
     // update the content page elements
-    updateContentPage(args); // args = "This was Updated" (for now)
+    updateContentPage(args);
 });
 
 
 // <---------- Helper Methods ---------------->
 
 var count = 0;
-function makeProgramButton(programName) {
+function makeProgramButton(programInfo) {
     button = document.createElement("button");
     button.className = "tab-button";
     //button.id = 'button' + count.toString();
-    button.innerHTML = programName;
+    button.innerHTML = programInfo.name;
     document.getElementById("tab-container").append(button);
     
     // Creates Event Listener for the dynamically added button
     button.addEventListener('click', function(element){
         console.log("tab button works");
-        ipc.send('displayContent', "This was Updated");
+        ipc.send('displayContent', {name: programInfo.name, path: programInfo.path});
     });
     
     //count++;
 }
 
 
-function updateContentPage(programInfo) { // programInfo is "This was Updated" (for now) -> came from ipc.on("displayContentRenderer")
+function updateContentPage(programInfo) {
     // Get Elements
     nameElement = document.getElementById("title");
     descriptionElement = document.getElementById("description");
@@ -73,6 +77,7 @@ function updateContentPage(programInfo) { // programInfo is "This was Updated" (
     nameElement.innerHTML = programInfo.name;
     descriptionElement.innerHTML = "This is the description for " + programInfo.description;
     // Update Launch Button Exec Path
+    currentProgramPath = programInfo.path.toString();
 }
 
 
@@ -94,7 +99,7 @@ async function initialize() {
         // Creates Event Listener for the dynamically added button
         button.addEventListener('click', function(element){
             console.log("tab button works for initialization");
-            ipc.send('displayContent', {name : entry.program_name, description : entry.description});
+            ipc.send('displayContent', {name : entry.program_name, description : entry.description, path: entry.program_path});
         });
     });
 }

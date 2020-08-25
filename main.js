@@ -80,10 +80,7 @@ function addToDB(filePath, namePath){
 }
 
 
-
-
-var programPath = "D:\\Quixel for Texturing\\Quixel Mixer.exe"; //this will track path of current program that the launch button will launch
-function launchProgram(){
+function launchProgram(programPath){
     // execute the file
     const child = execFile(programPath, (error,stdout,stderror) => {
         if (error) {
@@ -101,15 +98,13 @@ ipc.on('addProgram', (event) =>{
     var filePath = addProgram()
     let namePath = findEXEName(filePath);
     addToDB(filePath, namePath)
-    event.reply("makeButton", namePath)   //replies to addprogram request by requesting the renderer make a button
+    event.reply("makeButton", {name: namePath, path: filePath})   //replies to addprogram request by requesting the renderer make a button
 });
 
-ipc.on('launchProgram', (event)=>{
-    launchProgram()
+ipc.on('launchProgram', (event, args)=>{
+    launchProgram(args)
 });
 
-// Note: ipc name "displayContent" is the same name as the one being sent out. This may not work, but I think it's easier to understand that they are linked together.
-// Maybe using a naming convention of "displayContent{file name}" might be easier to understand
 ipc.on('displayContent', (event, args)=>{
     event.reply('displayContentRenderer', args); // pass in path as name (for now)
 });
