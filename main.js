@@ -46,9 +46,9 @@ app.whenReady().then(() => {
 });
 
 
-function addProgram() {
-    //change this function to be able to add files to launcher, this will be called if user clicks
-    //file -> add a program
+function addProgram(event) {
+    //uses system dialog to prompt user to select a .exe file, adds it to database then ipc sends message to index to make a
+    // tab button for the new program
     console.log("added");
     var filePath = dialog.showOpenDialogSync({
         filters:
@@ -57,7 +57,9 @@ function addProgram() {
         ]
     });
     // Adds program data into the DB
-    return filePath
+    let namePath = findEXEName(filePath);
+    addToDB(filePath, namePath)
+    event.reply("makeButton", {name: namePath, path: filePath})   //replies to addprogram request by requesting the renderer make a button
 }
 function removeProgram() {
     //change this function to be able to select a file to remove from launcher, this will be called if user clicks
@@ -95,10 +97,7 @@ function launchProgram(programPath){
 
 // <--- IPC from index.js --->
 ipc.on('addProgram', (event) =>{
-    var filePath = addProgram()
-    let namePath = findEXEName(filePath);
-    addToDB(filePath, namePath)
-    event.reply("makeButton", {name: namePath, path: filePath})   //replies to addprogram request by requesting the renderer make a button
+    addProgram(event)
 });
 
 ipc.on('launchProgram', (event, args)=>{

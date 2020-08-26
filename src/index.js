@@ -82,7 +82,7 @@ function updateContentPage(programInfo) {
 
 
 /**
- * Render all initialization herer
+ * Render all initialization here
  */
 async function initialize() {
     const entries = await getEntries();
