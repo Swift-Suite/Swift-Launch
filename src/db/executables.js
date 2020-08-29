@@ -36,7 +36,6 @@ function createEntry(data) {
 
         const datetime = Date.now();
         const row = {
-            id: 0,
             program_name: program_name,
             program_path: program_path,
             icon_path: icon_path,
@@ -49,6 +48,8 @@ function createEntry(data) {
         db.insertTableContent(TABLENAME, row, (succ, msg) => {
             console.log("Success: " + succ);
             console.log("Message: " + msg);
+
+            db.ins
         });
     });
 }
