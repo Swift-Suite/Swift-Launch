@@ -26,7 +26,7 @@ function initDB() {
 
 function createEntry(data) {
 
-    const { program_name, program_path, icon_path, description } = data;
+    const { program_id, program_name, program_path, icon_path, description } = data;
 
     db.getRows(TABLENAME, {
         program_path: program_path,
@@ -37,6 +37,7 @@ function createEntry(data) {
         const datetime = Date.now();
         const row = {
             id: 0,
+            program_id: program_id,
             program_name: program_name,
             program_path: program_path,
             icon_path: icon_path,
@@ -44,13 +45,17 @@ function createEntry(data) {
             created_at: datetime,
             last_opened: datetime,
         };
-
+        console.log(row);
         // This is bad style, change to async await in future
         db.insertTableContent(TABLENAME, row, (succ, msg) => {
             console.log("Success: " + succ);
             console.log("Message: " + msg);
         });
     });
+}
+
+function removeEntry(id){
+
 }
 
 // Returns a list of all entries
