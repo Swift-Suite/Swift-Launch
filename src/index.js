@@ -60,9 +60,9 @@ function makeProgramButton(programInfo) {
     document.getElementById("tab-container").append(button);
     ipc.send('addToDB', [idCount, programInfo.name, programInfo.path])
     // Creates Event Listener for the dynamically added button
-    button.addEventListener('click', function(element){
+    button.addEventListener('click', function(element) {
         console.log("tab button works");
-        updateContentPage({programId: idCount, namePath: programInfo.name, filePath: programInfo.path});
+        updateContentPage({program_id: idCount, name: programInfo.name, description: "Enter a new description."});
     });
 }
 
@@ -74,19 +74,9 @@ function updateContentPage(programInfo) {
 
     // Update Elements
     nameElement.innerHTML = programInfo.name;
-    descriptionElement.innerHTML = "This is the description for " + programInfo.description;
+    descriptionElement.innerHTML = "Enter a description for " + programInfo.description;
     // Update Launch Button Exec Path
     currentProgramPath = programInfo.path.toString();
-}
-
-
-function findComponent(x, y) {
-    // ur mum
-}
-
-
-function removeProgramButton(element) {
-    
 }
 
 //<------------Right Click Menu------------------->
@@ -139,11 +129,14 @@ async function initialize() {
         console.log(entry);
 
         // Creates Event Listener for the dynamically added button
-        button.addEventListener('click', function(element){
+        button.addEventListener('click', function(){
             console.log("tab button works for initialization");
             updateContentPage({id : entry.program_id, name : entry.program_name, description : entry.description, path: entry.program_path});
         });
     });
+    if (entries) {
+        updateContentPage({id : entries[0].program_id, name : entries[0].program_name, description : entries[0].description, path: entries[0].program_path});
+    };
 }
 
 console.log("Here");
