@@ -11,7 +11,7 @@ const ipc = electron.ipcMain
 try { require('electron-reloader')(module); } catch (_) {}
 
 // Database
-const { initDB, createEntry } = require('./src/db/executables');
+const { initDB, createEntry, removeEntry } = require('./src/db/executables');
 const { worker } = require('cluster');
 
 var mainWindow;
@@ -61,32 +61,23 @@ function addProgram(event) {
     });
     // Adds program data into the DB
     let namePath = findEXEName(filePath);
-    addToDB(filePath, namePath)
     event.reply("makeButton", {name: namePath, path: filePath})   //replies to addprogram request by requesting the renderer make a button
 }
 
-function removeProgram(program){
-    console.log("x" + program[0].toString() + " y" + program[1].toString());
-    //removeFromDB(programName)
-}
-
-
-function changeTheme() {
-    // Change the theme of the program
-}
-
-function addToDB(filePath, namePath){
+function addToDB(programId, namePath, filePath){
     // Creates a new entry into the DB
     createEntry({
+        program_id: programId,
         program_name: namePath,
         program_path: filePath,
         icon_path: "",
-        description: "This is the description for " + namePath,
+        description: "Enter a description for " + namePath,
     });
 }
 
-function removeFromDB(fileName){
-    return
+function removeFromDB(program_id){
+    //removes the program with passed program_id from the database
+    removeEntry(program_id);
 }
 
 function launchProgram(programPath){
@@ -111,16 +102,13 @@ ipc.on('launchProgram', (event, args)=>{
     launchProgram(args)
 });
 
-ipc.on('displayContent', (event, args)=>{
-    event.reply('displayContentRenderer', args); // pass in path as name (for now)
+ipc.on('removeProgram', (event,args)=>{
+    removeFromDB(args)
 });
 
-ipc.on('removeProgram', (event,args)=>{
-    removeProgram(args)
-}
-
-)
-
+ipc.on('addToDB', (event,args) => {
+    addToDB(...args)
+})
 // <------------------ event listeners --------------------->
 
 //function is called after app is ready, place any neccesary event listeners in this function
@@ -151,8 +139,6 @@ function findEXEName(filePath){
     }
     return t
 }
-
-
 
 
 

@@ -7,7 +7,7 @@ const { getEntries } = require('./db/executables');
 
 
 var currentProgramPath = "";
-
+var idCount = 0;
 // <--- Buttons on Page --->
 const programBtn = document.getElementById("add-program-button");
 const launchBtn = document.getElementById("launch-button");
@@ -54,14 +54,15 @@ ipc.on("displayContentRenderer", (event, args) => {
 function makeProgramButton(programInfo) {
     button = document.createElement("button");
     button.className = "tab-button";
-    //button.id = 'button' + count.toString();
+    idCount++;
+    button.id = idCount.toString();
     button.innerHTML = programInfo.name;
     document.getElementById("tab-container").append(button);
-    
+    ipc.send('addToDB', [idCount, programInfo.name, programInfo.path])
     // Creates Event Listener for the dynamically added button
     button.addEventListener('click', function(element){
         console.log("tab button works");
-        ipc.send('displayContent', {name: programInfo.name, path: programInfo.path});
+        updateContentPage({programId: idCount, namePath: programInfo.name, filePath: programInfo.path});
     });
 }
 
@@ -102,7 +103,7 @@ const rightClickMenuTemplate = [
 
 function removeProgram() {
     element = document.elementFromPoint(rightClickPosition[0], rightClickPosition[1]);
-    ipc.send('removeProgram', element);
+    ipc.send('removeProgram', element.id);
     element.parentNode.removeChild(element);
 }
 
@@ -117,12 +118,6 @@ window.addEventListener('contextmenu', (e) => {
     rightClickMenu.popup({window: remote.getCurrentWindow()})
 }, false)
 
-function showCoords(event) {
-    var x = event.clientX;
-    var y = event.clientY;
-    return [x, y];
-  }
-
 
 /**
  * Render all initialization here
@@ -131,8 +126,12 @@ async function initialize() {
     const entries = await getEntries();
     console.log("Entries:",entries);
     entries.forEach(entry => {
+        if(idCount < entry.program_id){
+            idCount = entry.program_id;
+        }
         const button = document.createElement('button');
         button.className = 'tab-button';
+        button.id = entry.program_id.toString();
         const textNode = document.createTextNode(entry.program_name);
         button.appendChild(textNode);
         document.getElementById("tab-container").appendChild(button);
@@ -142,7 +141,7 @@ async function initialize() {
         // Creates Event Listener for the dynamically added button
         button.addEventListener('click', function(element){
             console.log("tab button works for initialization");
-            ipc.send('displayContent', {id : entry.id, name : entry.program_name, description : entry.description, path: entry.program_path});
+            updateContentPage({id : entry.program_id, name : entry.program_name, description : entry.description, path: entry.program_path});
         });
     });
 }
