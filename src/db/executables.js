@@ -36,7 +36,6 @@ function createEntry(data) {
 
         const datetime = Date.now();
         const row = {
-            id: 0,
             program_id: program_id,
             program_name: program_name,
             program_path: program_path,
@@ -55,7 +54,11 @@ function createEntry(data) {
 }
 
 function removeEntry(id){
-
+    console.log(id);
+    db.deleteRow(TABLENAME, {'program_id': parseInt(id)}, (succ, msg) => {
+        console.log("Success: " + succ);
+        console.log("Message: " + msg);
+    });
 }
 
 // Returns a list of all entries
@@ -80,4 +83,5 @@ module.exports = {
     initDB,
     createEntry,
     getEntries,
+    removeEntry
 };

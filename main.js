@@ -11,7 +11,7 @@ const ipc = electron.ipcMain
 try { require('electron-reloader')(module); } catch (_) {}
 
 // Database
-const { initDB, createEntry } = require('./src/db/executables');
+const { initDB, createEntry, removeEntry } = require('./src/db/executables');
 const { worker } = require('cluster');
 
 var mainWindow;
@@ -64,16 +64,6 @@ function addProgram(event) {
     event.reply("makeButton", {name: namePath, path: filePath})   //replies to addprogram request by requesting the renderer make a button
 }
 
-function removeProgram(program){
-    console.log("id" + program.toString());
-    //removeFromDB(programName)
-}
-
-
-function changeTheme() {
-    // Change the theme of the program
-}
-
 function addToDB(programId, namePath, filePath){
     // Creates a new entry into the DB
     createEntry({
@@ -85,8 +75,9 @@ function addToDB(programId, namePath, filePath){
     });
 }
 
-function removeFromDB(fileName){
-    return
+function removeFromDB(program_id){
+    //removes the program with passed program_id from the database
+    removeEntry(program_id);
 }
 
 function launchProgram(programPath){
@@ -112,7 +103,7 @@ ipc.on('launchProgram', (event, args)=>{
 });
 
 ipc.on('removeProgram', (event,args)=>{
-    removeProgram(args)
+    removeFromDB(args)
 });
 
 ipc.on('addToDB', (event,args) => {
