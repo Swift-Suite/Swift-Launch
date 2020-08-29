@@ -61,7 +61,7 @@ function addProgram(event) {
     });
     // Adds program data into the DB
     let namePath = findEXEName(filePath);
-    event.reply("makeButton", {name: namePath, path: filePath})   //replies to addprogram request by requesting the renderer make a button
+    event.reply("makeButton", {name: namePath, path: filePath});   //replies to addprogram request by requesting the renderer make a button
 }
 
 function addToDB(programId, namePath, filePath){
