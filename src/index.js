@@ -1,7 +1,8 @@
 const electron = require('electron')
 const path = require('path')
 const ipc = electron.ipcRenderer
-
+const {remote} = require('electron')
+const {Menu} = remote
 const { getEntries } = require('./db/executables');
 
 
@@ -80,7 +81,25 @@ function updateContentPage(programInfo) {
     currentProgramPath = programInfo.path.toString();
 }
 
+//<------------right click menu------------------->
 
+
+const rightClickMenuTemplate = [
+    {
+        label: "Remove Program",
+        click(){
+            removeProgram(""," ")  //placeholder arguments
+        }
+    }
+]
+
+const rightClickMenu = Menu.buildFromTemplate(rightClickMenuTemplate)
+
+// Prevent default action of right click in chromium. Replace with our menu.
+window.addEventListener('contextmenu', (e) => {
+    e.preventDefault()
+    rightClickMenu.popup({window: remote.getCurrentWindow()})
+}, false)
 /**
  * Render all initialization here
  */

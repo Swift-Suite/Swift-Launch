@@ -1,4 +1,4 @@
-const { app, BrowserWindow, Menu, dialog } = require('electron')
+const { app, BrowserWindow, Menu, dialog, remote } = require('electron')
 const electron = require('electron');
 const os = require('os');
 const url = require('url');
@@ -13,6 +13,8 @@ try { require('electron-reloader')(module); } catch (_) {}
 // Database
 const { initDB, createEntry } = require('./src/db/executables');
 const { worker } = require('cluster');
+
+var mainWindow;
 
 
 
@@ -43,6 +45,7 @@ function createWindow(){
 app.whenReady().then(() => {
     createWindow();
     initDB();  //will not create new db if db JSON file already exists
+    createEventListeners();
 });
 
 
@@ -61,11 +64,13 @@ function addProgram(event) {
     addToDB(filePath, namePath)
     event.reply("makeButton", {name: namePath, path: filePath})   //replies to addprogram request by requesting the renderer make a button
 }
-function removeProgram() {
-    //change this function to be able to select a file to remove from launcher, this will be called if user clicks
-    //file -> remove a program
+
+function removeProgram(event, program){
     console.log("removed");
+    removeFromDB(programName)
+
 }
+
 
 function changeTheme() {
     // Change the theme of the program
@@ -81,6 +86,9 @@ function addToDB(filePath, namePath){
     });
 }
 
+function removeFromDB(fileName){
+    return
+}
 
 function launchProgram(programPath){
     // execute the file
@@ -108,7 +116,17 @@ ipc.on('displayContent', (event, args)=>{
     event.reply('displayContentRenderer', args); // pass in path as name (for now)
 });
 
+// <------------------ event listeners --------------------->
 
+//function is called after app is ready, place any neccesary event listeners in this function
+function createEventListeners(){
+//     //listener for right click to open up menu
+//     mainWindow.addEventListener('contextmenu', (e) => {
+//        let clickMenu = Menu.buildFromTemplate(rightClickMenuTemplate);
+//         e.preventDefault();
+//         clickMenu.popup({window: remote.getCurrentWindow()});
+//     }, false)
+}
 //---------------Helper Functions --------------------------
 
 function findEXEName(filePath){
@@ -128,6 +146,10 @@ function findEXEName(filePath){
     }
     return t
 }
+
+
+
+
 
 // Top window toolbar template
 const toolBarTemplate = [
@@ -191,108 +213,3 @@ const toolBarTemplate = [
     }
     //--------Devtools end --------
 ]
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
