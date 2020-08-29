@@ -51,7 +51,6 @@ ipc.on("displayContentRenderer", (event, args) => {
 
 // <---------- Helper Methods ---------------->
 
-var count = 0;
 function makeProgramButton(programInfo) {
     button = document.createElement("button");
     button.className = "tab-button";
@@ -64,8 +63,6 @@ function makeProgramButton(programInfo) {
         console.log("tab button works");
         ipc.send('displayContent', {name: programInfo.name, path: programInfo.path});
     });
-    
-    //count++;
 }
 
 
@@ -81,25 +78,52 @@ function updateContentPage(programInfo) {
     currentProgramPath = programInfo.path.toString();
 }
 
-//<------------right click menu------------------->
+
+function findComponent(x, y) {
+    // ur mum
+}
 
 
+function removeProgramButton(element) {
+    
+}
+
+//<------------Right Click Menu------------------->
+
+var rightClickPosition = [0,0]
 const rightClickMenuTemplate = [
     {
         label: "Remove Program",
-        click(){
-            removeProgram(""," ")  //placeholder arguments
+        click() {
+            removeProgram();
         }
     }
 ]
+
+function removeProgram() {
+    element = document.elementFromPoint(rightClickPosition[0], rightClickPosition[1]);
+    ipc.send('removeProgram', element);
+    element.parentNode.removeChild(element);
+}
 
 const rightClickMenu = Menu.buildFromTemplate(rightClickMenuTemplate)
 
 // Prevent default action of right click in chromium. Replace with our menu.
 window.addEventListener('contextmenu', (e) => {
-    e.preventDefault()
+    e.preventDefault();
+    rightClickPosition[0] = e.clientX;
+    rightClickPosition[1] = e.clientY;
+
     rightClickMenu.popup({window: remote.getCurrentWindow()})
 }, false)
+
+function showCoords(event) {
+    var x = event.clientX;
+    var y = event.clientY;
+    return [x, y];
+  }
+
+
 /**
  * Render all initialization here
  */
@@ -118,7 +142,7 @@ async function initialize() {
         // Creates Event Listener for the dynamically added button
         button.addEventListener('click', function(element){
             console.log("tab button works for initialization");
-            ipc.send('displayContent', {name : entry.program_name, description : entry.description, path: entry.program_path});
+            ipc.send('displayContent', {id : entry.id, name : entry.program_name, description : entry.description, path: entry.program_path});
         });
     });
 }

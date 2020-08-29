@@ -65,10 +65,9 @@ function addProgram(event) {
     event.reply("makeButton", {name: namePath, path: filePath})   //replies to addprogram request by requesting the renderer make a button
 }
 
-function removeProgram(event, program){
-    console.log("removed");
-    removeFromDB(programName)
-
+function removeProgram(program){
+    console.log("x" + program[0].toString() + " y" + program[1].toString());
+    //removeFromDB(programName)
 }
 
 
@@ -115,6 +114,12 @@ ipc.on('launchProgram', (event, args)=>{
 ipc.on('displayContent', (event, args)=>{
     event.reply('displayContentRenderer', args); // pass in path as name (for now)
 });
+
+ipc.on('removeProgram', (event,args)=>{
+    removeProgram(args)
+}
+
+)
 
 // <------------------ event listeners --------------------->
 
