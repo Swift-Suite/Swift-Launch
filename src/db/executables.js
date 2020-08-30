@@ -49,6 +49,8 @@ function createEntry(data) {
         db.insertTableContent(TABLENAME, row, (succ, msg) => {
             console.log("Success: " + succ);
             console.log("Message: " + msg);
+
+            db.ins
         });
     });
 }
