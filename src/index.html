@@ -18,20 +18,36 @@
             </div>
          </div> <!-- Left Panel End -->
          <div id="content-panel"> <!-- Content Screen Start -->
-            <div class="program-header">
-                <img src="../assets/cat.jpg" id="program-icon">
-                <h1 id="title">App Title</h1>
-            </div>
-            <div class="program-body">
-                <button id="launch-button">Launch</button>
-                <div class="program-body-content">
-                    <p id = "description">
-                        Lorem ipsum dolor sit amet consectetur adipisicing elit. Repellat distinctio corporis totam vitae aut maiores, sequi consequatur suscipit praesentium tempora deleniti quas ut fugiat cupiditate quod doloremque velit neque quasi. Ahah
-                    </p>
+            <div id="content-wrapper">
+                <div class="program-header">
+                    <img src="../assets/cat.jpg" id="program-icon">
+                    <h1 id="title">App Title</h1>
+                    <button class="btn" id="edit-btn" >Edit</button>
+                </div>
+                <div class="program-body" id="main-content">
+                    <button id="launch-button" class="btn">Launch <i data-feather="play"></i></button>
+                    <div class="program-body-content">
+                        <p id = "description">
+                            Lorem ipsum dolor sit amet consectetur adipisicing elit. Repellat distinctio corporis totam vitae aut maiores, sequi consequatur suscipit praesentium tempora deleniti quas ut fugiat cupiditate quod doloremque velit neque quasi. Ahah
+                        </p>
+                    </div>
+                </div>
+                <div class="program-body" id="edit-form-wrapper" hidden>
+                    <form action="" method="">
+                        <label for="title-input">App Title</label>
+                        <input type="text" id="title-input" name="title-input" />
+                        <label for="path-input">Application Path</label>
+                        <input type="file" id="path-input" name="path-input" />
+                        <label for="description-input">Description</label>
+                        <textarea id="description-input"></textarea>
+                        <input type="submit" value="Save" />
+                    </form>
                 </div>
             </div>
          </div> <!-- Content Screen End -->
      </div>
     </body>
+    <script src="../assets/feather.min.js"></script>
+    <script>feather.replace({'width': 16, 'height': 16, 'fill': '#eee'})</script>
     <script src="index.js"></script>
 </html>

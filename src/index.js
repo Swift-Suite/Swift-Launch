@@ -11,6 +11,7 @@ var idCount = 0;
 // <--- Buttons on Page --->
 const programBtn = document.getElementById("add-program-button");
 const launchBtn = document.getElementById("launch-button");
+const editBtn = document.getElementById("edit-btn");
 
 
 
@@ -26,6 +27,14 @@ programBtn.addEventListener('click', function(){
 launchBtn.addEventListener('click', function(){
     console.log("current path: " + currentProgramPath);
     ipc.send('launchProgram', currentProgramPath);
+});
+
+// Render Edit Form
+editBtn.addEventListener('click', e => {
+    const container = document.getElementById("main-content");
+    const formContainer = document.getElementById("edit-form-wrapper");
+    container.hidden ^= true;
+    formContainer.hidden = !container.hidden;
 });
 
 
@@ -71,10 +80,20 @@ function updateContentPage(programInfo) {
     // Get Elements
     nameElement = document.getElementById("title");
     descriptionElement = document.getElementById("description");
+    console.log("info",programInfo);
+
+    const titleInput = document.getElementById('title-input');
+    titleInput.value = programInfo.name;
 
     // Update Elements
     nameElement.innerHTML = programInfo.name;
-    descriptionElement.innerHTML = "Enter a description for " + programInfo.description;
+    if (programInfo.description) {
+        descriptionElement.innerHTML = programInfo.description;
+        const descriptionInput = document.getElementById("description-input");
+        descriptionInput.value = programInfo.description;
+    } else {
+        descriptionElement = "Edit to change description";
+    }
     // Update Launch Button Exec Path
     currentProgramPath = programInfo.path.toString();
 }
