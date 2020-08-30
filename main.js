@@ -14,8 +14,10 @@ try { require('electron-reloader')(module); } catch (_) {}
 const { initDB, createEntry, removeEntry } = require('./src/db/executables');
 const { worker } = require('cluster');
 
-var mainWindow;
+// Utils
+const { searchSort } = require('./src/utils/StringMatching');
 
+var mainWindow;
 
 
 function createWindow(){
@@ -49,7 +51,7 @@ app.whenReady().then(() => {
 });
 
 
-function addProgram(event) {
+function addProgram() {
     //uses system dialog to prompt user to select a .exe file, adds it to database then ipc sends message to index to make a
     // tab button for the new program
     console.log("added");
@@ -61,7 +63,7 @@ function addProgram(event) {
     });
     // Adds program data into the DB
     let namePath = findEXEName(filePath);
-    event.reply("makeButton", {name: namePath, path: filePath});   //replies to addprogram request by requesting the renderer make a button
+    return [namePath, filePath]
 }
 
 function addToDB(programId, namePath, filePath){
@@ -90,12 +92,18 @@ function launchProgram(programPath){
     });
 }
 
+function getFilteredSearchList(event, searchTerm, searchList){
+    let toReturn = 
+    event.reply('', toReturn);
+}
+
 
 // <---------- IPC Receiving ---------------->
 
 // <--- IPC from index.js --->
 ipc.on('addProgram', (event) =>{
-    addProgram(event)
+    let temp = addProgram();
+    event.reply("makeButton", {name: temp[0], path: temp[1]}); //replies to addprogram request by requesting the renderer make a button
 });
 
 ipc.on('launchProgram', (event, args)=>{
@@ -108,18 +116,13 @@ ipc.on('removeProgram', (event,args)=>{
 
 ipc.on('addToDB', (event,args) => {
     addToDB(...args)
-})
-// <------------------ event listeners --------------------->
+});
 
-//function is called after app is ready, place any neccesary event listeners in this function
-function createEventListeners(){
-//     //listener for right click to open up menu
-//     mainWindow.addEventListener('contextmenu', (e) => {
-//        let clickMenu = Menu.buildFromTemplate(rightClickMenuTemplate);
-//         e.preventDefault();
-//         clickMenu.popup({window: remote.getCurrentWindow()});
-//     }, false)
-}
+ipc.on('searchFilter', (event, args) => {
+    event.returnValue = searchSort(...args);
+});
+
+
 //---------------Helper Functions --------------------------
 
 function findEXEName(filePath){
@@ -152,12 +155,6 @@ const toolBarTemplate = [
                 label:'Add a program',
                 click(){  //on click functions to do
                     addProgram();
-                }
-            },
-            {
-                label:'Remove a program',
-                click(){
-                    removeProgram();
                 }
             }
         ]
