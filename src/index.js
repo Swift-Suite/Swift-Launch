@@ -38,8 +38,6 @@ editBtn.addEventListener('click', e => {
 });
 
 
-
-
 // <---------- IPC Receiving ---------------->
 // Basically receive information from main.js
 
@@ -57,8 +55,40 @@ ipc.on("displayContentRenderer", (event, args) => {
     updateContentPage(args);
 });
 
-
 // <---------- Helper Methods ---------------->
+
+async function displaySortedButtons(sortedButtonList){
+    let tab_container = document.getElementById("tab-container")
+    while(tab_container.firstChild){
+        tab_container.removeChild(tab_container.firstChild);
+    }
+    const entries = await getEntries();
+    let entriesObject = new Object();
+    entries.forEach(entry =>{
+        entriesObject[entry.program_name] = entry
+    });
+    sortedButtonList.forEach(buttonName =>{
+        entry = entriesObject[buttonName];
+        const button = document.createElement('button');
+        button.className = 'tab-button';
+        button.id = entry.program_id.toString();
+        const textNode = document.createTextNode(entry.program_name);
+        button.appendChild(textNode);
+        document.getElementById("tab-container").insert;
+        document.getElementById("tab-container").appendChild(button);
+    });
+}
+
+function makeHTMLProgramButton(buttonInfo){
+    button = document.createElement("button");
+    button.className = "tab-button";
+    button.innerHTML = programInfo.name;
+    document.getElementById("tab-container").append(button);
+    button.addEventListener('click', function() {
+        console.log("tab button works");
+        updateContentPage({program_id: idCount, name: programInfo.name, description: "Enter a new description.", path: programInfo.path});
+    });
+}
 
 function makeProgramButton(programInfo) {
     button = document.createElement("button");
@@ -69,9 +99,9 @@ function makeProgramButton(programInfo) {
     document.getElementById("tab-container").append(button);
     ipc.send('addToDB', [idCount, programInfo.name, programInfo.path])
     // Creates Event Listener for the dynamically added button
-    button.addEventListener('click', function(element) {
+    button.addEventListener('click', function() {
         console.log("tab button works");
-        updateContentPage({program_id: idCount, name: programInfo.name, description: "Enter a new description."});
+        updateContentPage({program_id: idCount, name: programInfo.name, description: "Enter a new description.", path: programInfo.path});
     });
 }
 
@@ -95,7 +125,12 @@ function updateContentPage(programInfo) {
         descriptionElement = "Edit to change description";
     }
     // Update Launch Button Exec Path
+    console.log(programInfo);
     currentProgramPath = programInfo.path.toString();
+}
+
+function updateSearchList(terms, programTerms){
+    return ipc.sendSync('searchFilter', [terms, programTerms]);
 }
 
 //<------------Right Click Menu------------------->
@@ -113,7 +148,9 @@ const rightClickMenuTemplate = [
 function removeProgram() {
     element = document.elementFromPoint(rightClickPosition[0], rightClickPosition[1]);
     ipc.send('removeProgram', element.id);
-    element.parentNode.removeChild(element);
+    if(element.className === "tab-button"){
+        element.parentNode.removeChild(element);
+    }
 }
 
 const rightClickMenu = Menu.buildFromTemplate(rightClickMenuTemplate)
@@ -123,9 +160,39 @@ window.addEventListener('contextmenu', (e) => {
     e.preventDefault();
     rightClickPosition[0] = e.clientX;
     rightClickPosition[1] = e.clientY;
-
-    rightClickMenu.popup({window: remote.getCurrentWindow()})
+    if (document.elementFromPoint(rightClickPosition[0], rightClickPosition[1]).className === "tab-button"){
+        rightClickMenu.popup({window: remote.getCurrentWindow()})
+    }
 }, false)
+
+
+//<----------------- SEARCH ---------------------->
+
+function searchInput(){
+    console.log("search visited.");
+    let input = document.getElementById("search-bar").value
+    let programs = document.getElementById("tab-container").children;
+    //find list of all program names
+    let programsDict = new Object();
+    for (i = 0; i < programs.length; i++) {
+        programsDict[programs[i].innerHTML] = programs[i];
+    } 
+
+    // Get a list of filtered search programs
+    let matchingPrograms = updateSearchList(input, Object.keys(programsDict));
+
+    console.log(matchingPrograms);
+
+    // Update display to show searched programs
+    // for (i = 0; i < matchingPrograms.length; i++){
+    //     delete programsDict[matchingPrograms[i]];
+    // }
+
+    // for (i = 0; i < programsDict.length; i++){
+    //     programsDict[i].hidden = true;
+    // }
+    displaySortedButtons(matchingPrograms);
+}
 
 
 /**
@@ -143,6 +210,7 @@ async function initialize() {
         button.id = entry.program_id.toString();
         const textNode = document.createTextNode(entry.program_name);
         button.appendChild(textNode);
+        document.getElementById("tab-container").insert
         document.getElementById("tab-container").appendChild(button);
         
         console.log(entry);

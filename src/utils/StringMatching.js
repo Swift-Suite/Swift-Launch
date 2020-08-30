@@ -55,7 +55,7 @@ function searchSort(searchTerm, terms) {
 
 module.exports = {
     editDistance,
-    sortedSort,
+    searchSort,
 };
 
 

@@ -8,7 +8,7 @@
      <div id="main-container">
          <div id="left-panel"> <!-- Left Panel Start -->
             <div id="search-bar-container">
-                <input type="text" placeholder="Search" id="search-bar">
+                <input type="text" placeholder="Search" id="search-bar" oninput="searchInput()">
             </div>
             <div id="tab-container">
                 <!-- Removed Two Default Buttons -->
@@ -21,7 +21,7 @@
             <div id="content-wrapper">
                 <div class="program-header">
                     <img src="../assets/cat.jpg" id="program-icon">
-                    <h1 id="title">App Title</h1>
+                    <h1 id="title">Welcome to Swift Launch!</h1>
                     <button class="btn" id="edit-btn" >Edit</button>
                 </div>
                 <div class="program-body" id="main-content">
@@ -42,6 +42,7 @@
                         <textarea id="description-input"></textarea>
                         <input type="submit" value="Save" />
                     </form>
+
                 </div>
             </div>
          </div> <!-- Content Screen End -->
