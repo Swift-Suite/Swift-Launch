@@ -47,7 +47,7 @@ function createWindow(){
 app.whenReady().then(() => {
     createWindow();
     initDB();  //will not create new db if db JSON file already exists
-    createEventListeners();
+    // createEventListeners();
 });
 
 

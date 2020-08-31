@@ -38,6 +38,9 @@ function searchSort(searchTerm, terms) {
     const ratings = new Array(terms.length);
     for (let i = 0; i < terms.length; ++i) {
         ratings[i] = [i,editDistance(searchTerm, terms[i])];
+        if (terms[i].toUpperCase().startsWith(searchTerm.toUpperCase())) {
+            ratings[i][1] += searchTerm.length*10;
+        }
     }
 
     ratings.sort((a,b) => {
