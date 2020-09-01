@@ -4,6 +4,7 @@ const ipc = electron.ipcRenderer
 const {remote} = require('electron')
 const {Menu} = remote
 const { getEntries } = require('./db/executables');
+const { title } = require('process')
 
 
 var currentProgramPath = "";
@@ -65,30 +66,40 @@ async function displaySortedButtons(sortedButtonList){
     const entries = await getEntries();
     let entriesObject = new Object();
     entries.forEach(entry =>{
-        entriesObject[entry.program_name] = entry
+        if(!(entry.program_name in entriesObject))
+        {
+            entriesObject[entry.program_name] = new Set();
+        }
+        entriesObject[entry.program_name].add(entry);
     });
     sortedButtonList.forEach(buttonName =>{
-        entry = entriesObject[buttonName];
-        const button = document.createElement('button');
-        button.className = 'tab-button';
-        button.id = entry.program_id.toString();
-        const textNode = document.createTextNode(entry.program_name);
-        button.appendChild(textNode);
-        document.getElementById("tab-container").insert;
-        document.getElementById("tab-container").appendChild(button);
+        allEntries = entriesObject[buttonName];
+        allEntries.forEach(entry=>{
+            const button = document.createElement('button');
+            button.className = 'tab-button';
+            button.id = entry.program_id.toString();
+            const textNode = document.createTextNode(entry.program_name);
+            button.appendChild(textNode);
+            button.addEventListener('click', function(){
+                updateContentPage({id : entry.program_id, name : entry.program_name, description : entry.description, path: entry.program_path});
+            })
+            document.getElementById("tab-container").insert;
+            document.getElementById("tab-container").appendChild(button);
+            
+        });
     });
 }
 
-function makeHTMLProgramButton(buttonInfo){
-    button = document.createElement("button");
-    button.className = "tab-button";
-    button.innerHTML = programInfo.name;
-    document.getElementById("tab-container").append(button);
-    button.addEventListener('click', function() {
-        console.log("tab button works");
-        updateContentPage({program_id: idCount, name: programInfo.name, description: "Enter a new description.", path: programInfo.path});
-    });
-}
+// function makeHTMLProgramButton(buttonInfo){
+//     button = document.createElement("button");
+//     button.className = "tab-button";
+//     button.innerHTML = programInfo.name;
+//     document.getElementById("tab-container").append(button);
+//     button.addEventListener('click', function() {
+//         console.log("tab button works");
+//         updateContentPage({program_id: idCount, name: programInfo.name, description: "Enter a new description.", path: programInfo.path});
+//     });
+// }
 
 function makeProgramButton(programInfo) {
     button = document.createElement("button");
@@ -194,10 +205,21 @@ function searchInput(){
     displaySortedButtons(matchingPrograms);
 }
 
+//<--------------- EDIT ---------------------->
 
-/**
- * Render all initialization here
- */
+function editInformation(){
+    // Get HTML elements
+    titleVal = document.getElementById("title-input").value;
+    pathVal = document.getElementById("path-input").value;
+    descriptionVal = document.getElementById("description-input").value;
+    // Add into DB
+    ipc.send('editDB', [titleVal, pathVal, descriptionVal])
+    // Update HTML elements
+    updateContentPage({name: titleElement, description: descriptionElement, path: pathElement})
+}
+
+
+//<-------------- INITIALIZATION ------------->
 async function initialize() {
     const entries = await getEntries();
     console.log("Entries:",entries);

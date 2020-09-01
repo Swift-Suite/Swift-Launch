@@ -22,27 +22,27 @@
                 <div class="program-header">
                     <img src="../assets/cat.jpg" id="program-icon">
                     <h1 id="title">Welcome to Swift Launch!</h1>
-                    <button class="btn" id="edit-btn" >Edit</button>
                 </div>
                 <div class="program-body" id="main-content">
-                    <button id="launch-button" class="btn">Launch <i data-feather="play"></i></button>
+                    <div id="program-button-container">
+                        <button id="launch-button" class="btn"><i data-feather="play"></i> Launch</button>
+                        <button class="btn" id="edit-btn" ><i data-feather="tool"></i> Edit</button>
+                    </div>
                     <div class="program-body-content">
                         <p id = "description">
-                            Lorem ipsum dolor sit amet consectetur adipisicing elit. Repellat distinctio corporis totam vitae aut maiores, sequi consequatur suscipit praesentium tempora deleniti quas ut fugiat cupiditate quod doloremque velit neque quasi. Ahah
+                            Click "Add Program" to get started!
                         </p>
                     </div>
                 </div>
                 <div class="program-body" id="edit-form-wrapper" hidden>
-                    <form action="" method="">
-                        <label for="title-input">App Title</label>
-                        <input type="text" id="title-input" name="title-input" />
-                        <label for="path-input">Application Path</label>
-                        <input type="file" id="path-input" name="path-input" />
-                        <label for="description-input">Description</label>
-                        <textarea id="description-input"></textarea>
-                        <input type="submit" value="Save" />
-                    </form>
-
+                    <div id="content-page-id" hidden></div>
+                    <label for="title-input">App Title</label>
+                    <input type="text" id="title-input" name="title-input" />
+                    <label for="path-input">Application Path</label>
+                    <input type="file" id="path-input" name="path-input" />
+                    <label for="description-input">Description</label>
+                    <textarea id="description-input"></textarea>
+                    <button onclick="editInformation()">Submit</button>
                 </div>
             </div>
          </div> <!-- Content Screen End -->

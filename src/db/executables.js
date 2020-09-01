@@ -26,7 +26,7 @@ function initDB() {
 
 function createEntry(data) {
 
-    const { program_id, program_name, program_path, icon_path, description } = data;
+    const { program_id, program_name, program_path, description } = data;
 
     db.getRows(TABLENAME, {
         program_path: program_path,
@@ -39,7 +39,6 @@ function createEntry(data) {
             program_id: program_id,
             program_name: program_name,
             program_path: program_path,
-            icon_path: icon_path,
             description: description,
             created_at: datetime,
             last_opened: datetime,

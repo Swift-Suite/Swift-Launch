@@ -4,7 +4,7 @@ const os = require('os');
 const url = require('url');
 const path = require('path');
 const shell = require('electron').shell
-const { execFile } = require('child_process');
+const { execFile, spawn} = require('child_process');
 const ipc = electron.ipcMain
 
 // For development only
@@ -40,7 +40,9 @@ function createWindow(){
     Menu.setApplicationMenu(Menu.buildFromTemplate(toolBarTemplate));
     
     //quit app when hit X
-    mainWindow.on('close', function(){app.quit()});    
+    mainWindow.on('close', function(){mainWindow.show = false});  
+    
+    app.on('window-all-closed',function(){app.quit()});
 }
 
 // Called when initialization is complete
@@ -61,20 +63,25 @@ function addProgram() {
             {name: 'Application', extensions: ['exe']}
         ]
     });
+    if(!filePath)
+        return "";
     // Adds program data into the DB
     let namePath = findEXEName(filePath);
     return [namePath, filePath]
 }
 
-function addToDB(programId, namePath, filePath){
+function addToDB(programId, namePath, filePath, description="Enter a description."){
     // Creates a new entry into the DB
     createEntry({
         program_id: programId,
         program_name: namePath,
         program_path: filePath,
-        icon_path: "",
-        description: "Enter a description for " + namePath,
+        description: description
     });
+}
+
+function editDB(program_id, program ){
+    removeFromDB()
 }
 
 function removeFromDB(program_id){
@@ -84,12 +91,19 @@ function removeFromDB(program_id){
 
 function launchProgram(programPath){
     // execute the file
-    const child = execFile(programPath, (error,stdout,stderror) => {
-        if (error) {
-            throw error;
-        }
-        console.log(stdout);
-    });
+    const child = spawn(programPath,
+        {
+            detached: true,
+            stdio: 'ignore'
+        });
+        child.unref();
+         //(error,stdout,stderror) => {
+        // if (error) {
+        //     throw error;
+        // }
+        // console.log(stdout);
+    //}
+    //);
 }
 
 function getFilteredSearchList(event, searchTerm, searchList){
@@ -103,7 +117,8 @@ function getFilteredSearchList(event, searchTerm, searchList){
 // <--- IPC from index.js --->
 ipc.on('addProgram', (event) =>{
     let temp = addProgram();
-    event.reply("makeButton", {name: temp[0], path: temp[1]}); //replies to addprogram request by requesting the renderer make a button
+    if(temp != "")
+        event.reply("makeButton", {name: temp[0], path: temp[1]}); //replies to addprogram request by requesting the renderer make a button
 });
 
 ipc.on('launchProgram', (event, args)=>{
@@ -116,6 +131,10 @@ ipc.on('removeProgram', (event,args)=>{
 
 ipc.on('addToDB', (event,args) => {
     addToDB(...args)
+});
+
+ipc.on('editDB', (event, args) => {
+    editDB(args);
 });
 
 ipc.on('searchFilter', (event, args) => {
