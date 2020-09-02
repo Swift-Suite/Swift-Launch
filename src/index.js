@@ -112,12 +112,12 @@ function makeProgramButton(programInfo) {
     // Creates Event Listener for the dynamically added button
     button.addEventListener('click', function() {
         console.log("tab button works");
-        updateContentPage({program_id: idCount, name: programInfo.name, description: "Enter a new description.", path: programInfo.path});
+        updateContentPage({id: idCount, name: programInfo.name, description: "Enter a new description.", path: programInfo.path});
     });
 }
 
 
-function updateContentPage(programInfo) {
+function updateContentPage(programInfo) { // param: {id, name, description, path}
     // Get Elements
     nameElement = document.getElementById("title");
     descriptionElement = document.getElementById("description");
@@ -135,6 +135,7 @@ function updateContentPage(programInfo) {
     } else {
         descriptionElement = "Edit to change description";
     }
+    document.getElementById("content-page-id").innerHTML = programInfo.id;
     // Update Launch Button Exec Path
     console.log(programInfo);
     currentProgramPath = programInfo.path.toString();
@@ -209,13 +210,14 @@ function searchInput(){
 
 function editInformation(){
     // Get HTML elements
+    idVal = document.getElementById("content-page-id").innerHTML;
     titleVal = document.getElementById("title-input").value;
     pathVal = document.getElementById("path-input").value;
     descriptionVal = document.getElementById("description-input").value;
     // Add into DB
-    ipc.send('editDB', [titleVal, pathVal, descriptionVal])
+    ipc.send('editDB', [idVal, titleVal, pathVal, descriptionVal])
     // Update HTML elements
-    updateContentPage({name: titleElement, description: descriptionElement, path: pathElement})
+    updateContentPage({id: idVal, name: titleVal, description: descriptionVal, path: pathVal})
 }
 
 

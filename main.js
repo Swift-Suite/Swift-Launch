@@ -80,8 +80,9 @@ function addToDB(programId, namePath, filePath, description="Enter a description
     });
 }
 
-function editDB(program_id, program ){
-    removeFromDB()
+function editDB(program_id, program_name, program_path, program_description){
+    removeFromDB(program_id);
+    addToDB(program_id, program_name, program_path, program_description);
 }
 
 function removeFromDB(program_id){
@@ -134,7 +135,7 @@ ipc.on('addToDB', (event,args) => {
 });
 
 ipc.on('editDB', (event, args) => {
-    editDB(args);
+    editDB(...args);
 });
 
 ipc.on('searchFilter', (event, args) => {
