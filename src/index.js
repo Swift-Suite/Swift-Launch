@@ -139,6 +139,9 @@ function updateContentPage(programInfo) { // param: {id, name, description, path
     // Update Launch Button Exec Path
     console.log(programInfo);
     currentProgramPath = programInfo.path.toString();
+    
+    //required in order to clear edit button when a new program is selected
+    document.getElementById("path-input").setAttribute("data-new-path", "");
 }
 
 function updateSearchList(terms, programTerms){
@@ -212,12 +215,21 @@ function editInformation(){
     // Get HTML elements
     idVal = document.getElementById("content-page-id").innerHTML;
     titleVal = document.getElementById("title-input").value;
-    pathVal = document.getElementById("path-input").value;
+    pathVal = document.getElementById("path-input").getAttribute("data-new-path");
     descriptionVal = document.getElementById("description-input").value;
     // Add into DB
-    ipc.send('editDB', [idVal, titleVal, pathVal, descriptionVal])
+    ipc.send('editDB', [idVal, titleVal, pathVal, descriptionVal]);
+    if (pathVal == "")
+        pathVal = currentProgramPath;
     // Update HTML elements
-    updateContentPage({id: idVal, name: titleVal, description: descriptionVal, path: pathVal})
+    updateContentPage({id: idVal, name: titleVal, description: descriptionVal, path: pathVal});
+}
+
+function getProgramPath(){
+    //called when the user tries to edit the path in the edit menu
+    let filePath = ipc.sendSync('findProgramPath')
+    if(filePath != "")
+        document.getElementById("path-input").setAttribute("data-new-path", filePath);
 }
 
 

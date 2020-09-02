@@ -57,6 +57,15 @@ function addProgram() {
     //uses system dialog to prompt user to select a .exe file, adds it to database then ipc sends message to index to make a
     // tab button for the new program
     console.log("added");
+    var filePath = getProgram();
+    if(!filePath)
+        return "";
+    // Adds program data into the DB
+    let namePath = findEXEName(filePath);
+    return [namePath, filePath]
+}
+
+function getProgram() {
     var filePath = dialog.showOpenDialogSync({
         filters:
         [
@@ -65,9 +74,7 @@ function addProgram() {
     });
     if(!filePath)
         return "";
-    // Adds program data into the DB
-    let namePath = findEXEName(filePath);
-    return [namePath, filePath]
+    return filePath
 }
 
 function addToDB(programId, namePath, filePath, description="Enter a description."){
@@ -147,6 +154,10 @@ ipc.on('editDB', (event, args) => {
 ipc.on('searchFilter', (event, args) => {
     event.returnValue = searchSort(...args);
 });
+
+ipc.on('findProgramPath', (event,args)=>{
+    event.returnValue = getProgram();
+})
 
 
 //---------------Helper Functions --------------------------
