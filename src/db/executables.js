@@ -78,11 +78,23 @@ async function getEntries() {
     return entries;
 }
 
+async function updateEntry(id, new_properties){
+    console.log(id)
+    console.log(new_properties)
+    console.log(await getEntries())
+    let where = {program_id:parseInt(id)}
+    db.updateRow(TABLENAME, where, new_properties, (succ, msg) => {
+        console.log("Success: " + succ);
+        console.log("Message: " + msg);
+      });
+}
+
 
 // Exports
 module.exports = {
     initDB,
     createEntry,
     getEntries,
-    removeEntry
+    removeEntry,
+    updateEntry
 };

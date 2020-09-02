@@ -11,7 +11,7 @@ const ipc = electron.ipcMain
 try { require('electron-reloader')(module); } catch (_) {}
 
 // Database
-const { initDB, createEntry, removeEntry } = require('./src/db/executables');
+const { initDB, createEntry, removeEntry, getEntries, updateEntry } = require('./src/db/executables');
 const { worker } = require('cluster');
 
 // Utils
@@ -39,8 +39,8 @@ function createWindow(){
     //Sets top window toolbar to custom one made in toolBarTemplate(file,help,etc.)
     Menu.setApplicationMenu(Menu.buildFromTemplate(toolBarTemplate));
     
-    //quit app when hit X
-    mainWindow.on('close', function(){mainWindow.show = false});  
+    //quit app when windows are all closed
+    //mainWindow.on('close', function(){mainWindow.show = false});  
     
     app.on('window-all-closed',function(){app.quit()});
 }
@@ -80,9 +80,15 @@ function addToDB(programId, namePath, filePath, description="Enter a description
     });
 }
 
-function editDB(program_id, program_name, program_path, program_description){
-    removeFromDB(program_id);
-    addToDB(program_id, program_name, program_path, program_description);
+function editDB(id, new_name, new_path, new_description){
+    let new_properties = {}
+    if(new_name != "")
+        new_properties["program_name"] = new_name;
+    if(new_path != "")
+        new_properties["program_path"] = new_path;
+    if(new_description != "")
+        new_properties["description"] = new_description;
+    updateEntry(id,new_properties)
 }
 
 function removeFromDB(program_id){
