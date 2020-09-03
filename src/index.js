@@ -156,6 +156,11 @@ const rightClickMenuTemplate = [
 function removeProgram() {
     element = document.elementFromPoint(rightClickPosition[0], rightClickPosition[1]);
     ipc.send('removeProgram', element.id);
+    console.log('here');
+    if (element.parentNode.childElementCount > 1){
+        console.log('why not');
+        element.previousSibling.click();
+    }
     if(element.className === "tab-button"){
         element.parentNode.removeChild(element);
     }
@@ -210,14 +215,20 @@ function editInformation(){
     titleVal = document.getElementById("title-input").value;
     pathVal = document.getElementById("path-input").getAttribute("data-new-path");
     descriptionVal = document.getElementById("description-input").value;
+    // Update HTML elements
+    tabElement = document.getElementById(idVal);
+    document.removeEventListener('click', tabElement);
+    tabElement.addEventListener('click', function(){
+        console.log("tab button works for edit");
+        updateContentPage({id : idVal, name : titleVal, description : descriptionVal, path: pathVal});
+    });
+    updateContentPage({id: idVal, name: titleVal, description: descriptionVal, path: pathVal});
+    document.getElementById(idVal).innerHTML = titleVal;
+    toggleEditFormHide();
     // Add into DB
     ipc.send('editDB', [idVal, titleVal, pathVal, descriptionVal]);
     if (pathVal == "")
         pathVal = currentProgramPath;
-    // Update HTML elements
-    updateContentPage({id: idVal, name: titleVal, description: descriptionVal, path: pathVal});
-    document.getElementById(idVal).innerHTML = titleVal;
-    toggleEditFormHide();
 }
 
 function getProgramPath(){
