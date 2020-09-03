@@ -32,10 +32,7 @@ launchBtn.addEventListener('click', function(){
 
 // Render Edit Form
 editBtn.addEventListener('click', e => {
-    const container = document.getElementById("main-content");
-    const formContainer = document.getElementById("edit-form-wrapper");
-    container.hidden ^= true;
-    formContainer.hidden = !container.hidden;
+    toggleEditFormHide();
 });
 
 
@@ -90,16 +87,12 @@ async function displaySortedButtons(sortedButtonList){
     });
 }
 
-// function makeHTMLProgramButton(buttonInfo){
-//     button = document.createElement("button");
-//     button.className = "tab-button";
-//     button.innerHTML = programInfo.name;
-//     document.getElementById("tab-container").append(button);
-//     button.addEventListener('click', function() {
-//         console.log("tab button works");
-//         updateContentPage({program_id: idCount, name: programInfo.name, description: "Enter a new description.", path: programInfo.path});
-//     });
-// }
+function toggleEditFormHide(){
+    const container = document.getElementById("main-content");
+    const formContainer = document.getElementById("edit-form-wrapper");
+    container.hidden ^= true;
+    formContainer.hidden = !container.hidden;
+}
 
 function makeProgramButton(programInfo) {
     button = document.createElement("button");
@@ -223,6 +216,8 @@ function editInformation(){
         pathVal = currentProgramPath;
     // Update HTML elements
     updateContentPage({id: idVal, name: titleVal, description: descriptionVal, path: pathVal});
+    document.getElementById(idVal).innerHTML = titleVal;
+    toggleEditFormHide();
 }
 
 function getProgramPath(){
