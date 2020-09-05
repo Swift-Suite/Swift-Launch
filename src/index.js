@@ -137,6 +137,12 @@ function updateContentPage(programInfo) { // param: {id, name, description, path
     document.getElementById("path-input").setAttribute("data-new-path", "");
 }
 
+function showDefaultContentPage(){
+    currentProgramPath = "";
+    document.getElementById("description").innerHTLM = "Click \"Add Program\" to get started!";
+    document.getElementById("title").innerHTML = "Welcome to Swift Launch!";
+}
+
 function updateSearchList(terms, programTerms){
     return ipc.sendSync('searchFilter', [terms, programTerms]);
 }
@@ -160,6 +166,9 @@ function removeProgram() {
     if (element.parentNode.childElementCount > 1){
         console.log('why not');
         element.previousSibling.click();
+    }
+    else{
+        showDefaultContentPage();
     }
     if(element.className === "tab-button"){
         element.parentNode.removeChild(element);

@@ -105,6 +105,7 @@ function removeFromDB(program_id){
 
 function launchProgram(programPath){
     // execute the file
+    if(programPath){
     const child = spawn(programPath,
         {
             detached: true,
@@ -118,7 +119,7 @@ function launchProgram(programPath){
         // console.log(stdout);
     //}
     //);
-}
+}}
 
 function getFilteredSearchList(event, searchTerm, searchList){
     let toReturn = 
