@@ -8,6 +8,7 @@
      <div id="main-container">
          <div id="left-panel"> <!-- Left Panel Start -->
             <div id="search-bar-container">
+                <div id="search-icon"><i data-feather="arrow-right" color="white"></i></div>
                 <input type="text" placeholder="Search" id="search-bar" oninput="searchInput()">
             </div>
             <div id="tab-container">
@@ -25,8 +26,8 @@
                 </div>
                 <div class="program-body" id="main-content">
                     <div id="program-button-container">
-                        <button id="launch-button" class="btn"><i data-feather="play"></i> Launch</button>
-                        <button class="btn" id="edit-btn" ><i data-feather="tool"></i> Edit</button>
+                        <button id="launch-button"><i data-feather="play"></i> Launch</button>
+                        <button id="edit-btn" ><i data-feather="tool"></i> Edit</button>
                     </div>
                     <div class="program-body-content">
                         <p id = "description">
@@ -42,7 +43,7 @@
                     <input type="button" id="path-input" name="path-input" onclick="getProgramPath()" data-new-path="" value="Select Path"/>
                     <label for="description-input">Description</label>
                     <textarea id="description-input"></textarea>
-                    <button onclick="editInformation()">Submit</button>
+                    <button id="edit-submit-btn" onclick="editInformation()">Submit</button>
                 </div>
             </div>
          </div> <!-- Content Screen End -->

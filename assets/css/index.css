@@ -1,9 +1,13 @@
 /* <------ GLOBAL FORMAT ------> */
+*{
+    color: #E8EDDF;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
 body{
     margin: 0;
     padding: 0;
     text-align: center;
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
 /*modifying scrollbar*/
@@ -12,11 +16,11 @@ body{
 }
 
 ::-webkit-scrollbar-track-piece{ /*portion of scrollbar that the thumb is not over*/
-    background-color: rebeccapurple;
+    background-color: #333533;
 }
 
 ::-webkit-scrollbar-thumb{ /*shows current position in scroll*/
-    background: yellow;
+    background: #F5CB5C;
 }
 
 /* end modifying scrollbar*/
@@ -36,24 +40,35 @@ body{
     flex-direction: column;
     height: 100vh;
     width: 400px;
-    background-color: peachpuff;
+    background-color: #333533;
+}
+
+#search-icon {
+    padding: 2% 2%;
 }
 
 #search-bar-container {
-    background-color: lightgreen;
-    padding: 10% 10%;
+    display: flex;
+    flex-direction: row;
+    background-color: #333533;
+    padding: 10% 10% 5% 2%;
 }
 
 #search-bar[type=text] {
-    width: 80%;
-    border: 2px solid red;
+    width: 90%;
+    height: 80%;
+    border: 2px;
     border-radius: 4px;
-    transition: width 0.4s ease-in-out;
-    background-color: wheat;
+    padding-left: 0.5rem;
+    transform: scaleY(1);
+    transform-origin: center;
+    transition: transform 0.26s ease;
+    color: #CFDBD5;
+    background-color: #464946;
 }
 
 #search-bar[type=text]:focus{
-    width: 90%;
+    transform: scaleY(1.2);
 }
   
 
@@ -62,7 +77,7 @@ body{
     height: 100%;
     overflow-y: scroll;
     overflow-x: hidden;
-    background-color: lightgray;
+    background-color: #333533;
 }
 
 .tab-button {
@@ -71,24 +86,40 @@ body{
     width: 100%;
     height: 1.75rem;
     border-style: hidden;
-    background-color: lightskyblue;
+    color: #CFDBD5;
+    background-color: #333533;
+    transition: font-size 0.35s;
 }
 
 .tab-button:hover {
-    background-color: lavenderblush;
+    font-size: 14px;
+    color: white;
+    background-color: #464946;
 }
 
 #add-button-container{
-    background-color: lightsalmon;
+    background-color: #333533;
+    padding: 5% 0%;
 }
 
 #add-program-button {
-    border-radius: 4px; 
-    background-color: lightseagreen;
+    border-radius: 4px;
+    color: #E8EDDF;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #464946;
     border-style: hidden;
-    padding: 0.5em 0.5em;
+    padding: 8px;
+    font-size: 15px;
+    transition: width 0.25s ease-in-out;
+    width: 8rem;
 }
 
+#add-program-button:hover {
+    width: 9rem;
+    font-size: 16px;
+    background-color: #505350;
+    cursor: pointer;
+}
 
 /* <------ LEFT PANEL ELEMENTS END --------->*/
 
@@ -98,8 +129,8 @@ body{
 #content-panel {
     display: flex;
     flex-direction: column;
-    background-image: url("../bg-img.jpg");
-    color: #eee;
+    color: #242423;
+    background-color: #3C3E3C;
     width: 100%;
     height: 100vh;
     overflow-y: scroll;
@@ -107,10 +138,7 @@ body{
 }
 
 #content-wrapper {
-    margin: 5%;
-    padding: 2em;
-    border-radius: 15px;
-    background-color: rgba(100, 100, 100, 0.75);
+    background-color: #464946;
 }
 
 .program-header {
@@ -122,7 +150,7 @@ body{
 
 #title {
     font-weight: normal;
-    color: #eee;
+    color: #E8EDDF;
 }
 
 #program-icon {
@@ -131,7 +159,7 @@ body{
     height: 2rem;
     width: 2rem;
     align-self: center;
-    background-color: thistle;
+    background-color: #F5CB5C;
     border-radius: 10%;
 }
 
@@ -142,32 +170,34 @@ body{
     border-radius: 3px;
     font-size: 16px;
     padding: 8px;
-    color: #eee;
-    background-image: linear-gradient(to bottom right, #50c12a, #407c2b);
+    color: #E8EDDF;
+    background-image: linear-gradient(to bottom right, #F0B719, #D39E0D);
 }
 
 #launch-button:hover {
-    background-image: linear-gradient(to bottom right, #507c2b, #407c2b);
+    background-image: linear-gradient(to bottom right, #F2BD2C, #E6AD0F);
     cursor: pointer;
 }
 
 #edit-btn {
     float: left;
-    background-color: #933;
+    background-color: #333533;
     width: 5rem;
     padding: 8px;
     margin-left: 1rem;
-    color: #eee;
+    color: #E8EDDF;
     border-radius: 3px;
     border-style: none;
     font-size: 16px;
+    transition: max-height 0.5s ease-in-out;
 }
 
 
 #edit-btn:hover {
-    background-color: #744;
+    background-color: #3C3E3C;
     cursor: pointer;
 }
+
 
 #program-button-container{
     float: left;
@@ -184,13 +214,18 @@ body{
 
 #description {
     text-align: left;
+    color: #E8EDDF;
 }
 
 /* Edit Program Form Styling */
 #edit-form-wrapper {
-    margin: 0 25%;
+    padding: 5% 10%;
     text-align: left;
+    background-color: #5A5E5A;
+    border-radius: 10px;
+    transition: max-height 0.5s ease-in-out;
 }
+
 
 #edit-form-wrapper input,textarea {
     margin: .25em 0 1em 0;
@@ -198,17 +233,46 @@ body{
     padding: 8px;
     border-radius: 6px;
     border-style: none;
+    background-color: #646864;
 }
 
-#edit-form-wrapper input[type=submit] {
-    width: 100%;
-    color: #eee;
-    background-color: rgb(16, 70, 121);
+#path-input {
+    background-color: #464946;
+    transition: font-size 0.35s ease-in-out;
 }
 
-#edit-form-wrapper input[type=submit]:hover {
-    background-color: rgb(21, 59, 95);
+#path-input:hover {
+    font-size: 16px;
+    background-color: #505350;
     cursor: pointer;
 }
+
+#edit-submit-btn {
+    background-color: #464946;
+    width: 5rem;
+    padding: 8px;
+    border-radius: 3px;
+    border-style: none;
+    font-size: 16px;
+    transition: font-size 0.35s ease-in-out;
+}
+
+#edit-submit-btn:hover {
+    font-size: 17px;
+    color: white;
+    background-color: #505350;
+    cursor: pointer;
+}
+
+textarea {
+    resize: none;
+    overflow: auto;
+    height: 10rem;
+}
+
+::selection {
+    color: #CFDBD5;
+    background-color: #242423;
+  }
 
 /* <--------- Content Panel End ------------> */

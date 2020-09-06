@@ -37,11 +37,14 @@ function createWindow(){
         console.log('dom-ready');
     });
     //Sets top window toolbar to custom one made in toolBarTemplate(file,help,etc.)
-    Menu.setApplicationMenu(Menu.buildFromTemplate(toolBarTemplate));
+    //Menu.setApplicationMenu(Menu.buildFromTemplate(toolBarTemplate));
     
     //quit app when windows are all closed
     //mainWindow.on('close', function(){mainWindow.show = false});  
     
+    // Remove Toolbar
+    mainWindow.removeMenu();
+
     app.on('window-all-closed',function(){app.quit()});
 }
 
@@ -112,13 +115,6 @@ function launchProgram(programPath){
             stdio: 'ignore'
         });
         child.unref();
-         //(error,stdout,stderror) => {
-        // if (error) {
-        //     throw error;
-        // }
-        // console.log(stdout);
-    //}
-    //);
 }}
 
 function getFilteredSearchList(event, searchTerm, searchList){
@@ -218,7 +214,7 @@ const toolBarTemplate = [
             {
                 label:'Github',
                 click() {
-                    shell.openExternal('https://github.com/Swift-Launch/Swift-Launch');
+                    shell.openExternal('https://github.com/Swift-Suite/Swift-Launch');
                 }
             }
         ]
