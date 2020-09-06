@@ -4,10 +4,10 @@ A desktop application to organize programs.
 ## Description
 * Organize your programs to launch from one place
 * Add your favorite programs to the Swift Launch Application
-* Find your programs sorted in an organized fashion
+* Find your programs sorted in an alphabetical order
 * Add a description or notes to a chosen program
-* Change the icon or name of an added program
-* Launch from either list or grid modes
+* Add custom names for your added programs
+* Change the program path at any time if needed
 
 ## Licensing
 Copyright (c) 2020 [Swift Launch]
