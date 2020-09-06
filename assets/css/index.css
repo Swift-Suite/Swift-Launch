@@ -138,7 +138,7 @@ body{
 }
 
 #content-wrapper {
-    background-color: #464946;
+    background-color: #3C3E3C;
 }
 
 .program-header {
@@ -175,7 +175,7 @@ body{
 }
 
 #launch-button:hover {
-    background-image: linear-gradient(to bottom right, #F2BD2C, #E6AD0F);
+    background-image: linear-gradient(to bottom right, #f5c747, #ebb729);
     cursor: pointer;
 }
 
@@ -194,7 +194,7 @@ body{
 
 
 #edit-btn:hover {
-    background-color: #3C3E3C;
+    background-color: #505350;
     cursor: pointer;
 }
 
@@ -208,24 +208,30 @@ body{
     flex-direction: column;
 }
 
-.program-body {
+.program-body{
     padding: 1rem;
+}
+
+.program-body-edit {
+    padding: 1rem;
+    transform: scaleY(0);
+    transform-origin: top;
+    transition: transform 0.26s ease;
 }
 
 #description {
     text-align: left;
     color: #E8EDDF;
+    word-wrap: break-word;
 }
 
 /* Edit Program Form Styling */
 #edit-form-wrapper {
     padding: 5% 10%;
     text-align: left;
-    background-color: #5A5E5A;
+    background-color: #464946;
     border-radius: 10px;
-    transition: max-height 0.5s ease-in-out;
 }
-
 
 #edit-form-wrapper input,textarea {
     margin: .25em 0 1em 0;
@@ -237,28 +243,25 @@ body{
 }
 
 #path-input {
+    font-size: 16px;
     background-color: #464946;
-    transition: font-size 0.35s ease-in-out;
 }
 
 #path-input:hover {
-    font-size: 16px;
     background-color: #505350;
     cursor: pointer;
 }
 
 #edit-submit-btn {
-    background-color: #464946;
+    background-color: #333533;
     width: 5rem;
     padding: 8px;
     border-radius: 3px;
     border-style: none;
     font-size: 16px;
-    transition: font-size 0.35s ease-in-out;
 }
 
 #edit-submit-btn:hover {
-    font-size: 17px;
     color: white;
     background-color: #505350;
     cursor: pointer;
@@ -268,6 +271,10 @@ textarea {
     resize: none;
     overflow: auto;
     height: 10rem;
+}
+
+.drop-down-anim{
+    transform: scaleY(1);
 }
 
 ::selection {

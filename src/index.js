@@ -88,10 +88,11 @@ async function displaySortedButtons(sortedButtonList){
 }
 
 function toggleEditFormHide(){
-    const container = document.getElementById("main-content");
     const formContainer = document.getElementById("edit-form-wrapper");
-    container.hidden ^= true;
-    formContainer.hidden = !container.hidden;
+    if (formContainer.classList.contains('drop-down-anim'))
+        formContainer.classList.remove('drop-down-anim');
+    else 
+        formContainer.classList.add('drop-down-anim');
 }
 
 function makeProgramButton(programInfo) {
